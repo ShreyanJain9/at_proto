@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# get the version number from lib/bskyrb/version.rb
-VERSION=$(cat lib/bskyrb/version.rb | grep VERSION | awk '{ print $3 }' | tr -d '"')
+# get the version number from lib/atmosfire/version.rb
+VERSION=$(cat lib/atmosfire/version.rb | grep VERSION | awk '{ print $3 }' | tr -d '"')
 
 # prompt for confirmation and new version number
 read -p "Are you sure you want to release version $VERSION? [y/n]: " CONFIRM
@@ -13,17 +13,17 @@ fi
 read -p "Enter new version number (leave blank to keep $VERSION): " NEW_VERSION
 if [ -n "$NEW_VERSION" ]; then
     echo "Updating version number to $NEW_VERSION."
-    sed -i '' "s/VERSION = \"$VERSION\"/VERSION = \"$NEW_VERSION\"/" lib/bskyrb/version.rb
+    sed -i '' "s/VERSION = \"$VERSION\"/VERSION = \"$NEW_VERSION\"/" lib/atmosfire/version.rb
     VERSION=$NEW_VERSION
 fi
 
 # build the gem
 echo "Building gem..."
-gem build bskyrb.gemspec
+gem build atmosfire.gemspec
 
 # push the gem to RubyGems
 read -p "Push gem to RubyGems? [y/n]: " PUSH_GEM
 if [ "$PUSH_GEM" == "y" ]; then
     echo "Pushing gem to RubyGems..."
-    gem push bskyrb-$VERSION.gem
+    gem push atmosfire-$VERSION.gem
 fi
