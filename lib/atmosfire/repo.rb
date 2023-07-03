@@ -9,19 +9,27 @@ class Atmosfire::Repo
       @did = resolve_handle(pds, username)
     end
     @record_list = []
+    if open == true
+      open!
+    end
   end
 
   def open!
+    @collections = describe_repo["collections"]
+  end
+
+  def describe_repo
+    @pds_endpoint.get.com_atproto_repo_describeRepo(repo: @did)
   end
 
   def list_records(collection, limit = 10)
-    list = []
     @pds_endpoint.get.com_atproto_repo_listRecords(
       repo: @did, collection: collection, limit: limit,
-    )["records"].each do |record|
-      list << Atmosfire::Record.new(record)
-    end
-    list
+    )["records"].map { |record| Atmosfire::Record.from_hash(record) }
+  end
+
+  def did_document()
+    describe_repo()["didDoc"]
   end
 
   attr_reader :did, :record_list

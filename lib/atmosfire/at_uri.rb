@@ -19,3 +19,21 @@ module Atmosfire
     end
   end
 end
+
+module Atmosfire
+  AtUri = Struct.new :repo, :collection, :rkey do
+    def initialize(*args)
+      if args.count == 1
+        parts = args[0].split("/")
+        repo, collection, rkey = parts[2], parts[3], parts[4]
+      elsif args.count == 3
+        repo, collection, rkey = args
+      end
+      super(repo, collection, rkey)
+    end
+
+    def to_s
+      "at://#{repo}/#{collection}/#{rkey}"
+    end
+  end
+end

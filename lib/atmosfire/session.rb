@@ -3,13 +3,10 @@
 require "atmosfire/requests"
 
 module Atmosfire
-  class Credentials
-    attr_reader :username, :pw, :pds
-
-    def initialize(username, pw, pds = "https://bsky.social")
-      @username = username
-      @pw = pw
-      @pds = pds # credentials are pds-specific
+  Credentials = Struct.new :username, :pw, :pds do
+    def initialize(*)
+      super
+      self.pds ||= "https://bsky.social"
     end
   end
 
@@ -31,7 +28,9 @@ module Atmosfire
         headers: default_headers,
       )
 
-      raise UnauthorizedError if response.code == 401
+      # response = XRPC::Client.new(@pds).post.com_atproto_server_createSession(identifier: credentials.username, password: credentials.pw)
+
+      raise UnauthorizedError if response["accessJwt"].nil?
 
       @access_token = response["accessJwt"]
       @refresh_token = response["refreshJwt"]
