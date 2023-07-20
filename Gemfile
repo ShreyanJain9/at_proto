@@ -20,3 +20,7 @@ group :development do
   gem "secp256k1-ruby"
   gem "bigdecimal"
 end
+
+gem "sorbet", "~> 0.5.10908"
+
+gem "tapioca", "~> 0.7.3"

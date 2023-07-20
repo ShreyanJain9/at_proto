@@ -1,10 +1,14 @@
-# typed: false
+# typed: true
 
 require "atmosfire/requests"
 
 module Atmosfire
   Credentials = Struct.new :username, :pw, :pds do
-    def initialize(*)
+    extend T::Sig
+
+    sig { params(username: String, pw: String, pds: String).void }
+
+    def initialize(username, pw, pds = "https://bsky.social")
       super
       self.pds ||= "https://bsky.social"
     end
@@ -12,8 +16,11 @@ module Atmosfire
 
   class Session
     include RequestUtils
+    extend T::Sig
 
-    attr_reader :credentials, :pds, :access_token, :refresh_token, :did
+    attr_reader :pds, :access_token, :refresh_token, :did, :xrpc
+
+    sig { params(credentials: Atmosfire::Credentials, should_open: T::Boolean).void }
 
     def initialize(credentials, should_open = true)
       @credentials = credentials
@@ -22,36 +29,30 @@ module Atmosfire
     end
 
     def open!
-      response = HTTParty.post(
-        URI(create_session_uri(pds)),
-        body: { identifier: credentials.username, password: credentials.pw }.to_json,
-        headers: default_headers,
-      )
-
-      # response = XRPC::Client.new(@pds).post.com_atproto_server_createSession(identifier: credentials.username, password: credentials.pw)
+      @xrpc = XRPC::Client.new(@pds)
+      response = @xrpc.post.com_atproto_server_createSession(identifier: @credentials.username, password: @credentials.pw)
 
       raise UnauthorizedError if response["accessJwt"].nil?
 
       @access_token = response["accessJwt"]
       @refresh_token = response["refreshJwt"]
       @did = response["did"]
+
+      @xrpc = XRPC::Client.new(@pds, @access_token)
+      @refresher = XRPC::Client.new(@pds, @refresh_token)
     end
 
     def refresh!
-      response = HTTParty.post(
-        URI(refresh_session_uri(pds)),
-        headers: refresh_token_headers(self),
-      )
-      raise UnauthorizedError if response.code == 401
+      response = @refresher.post.com_atproto_server_refreshSession
+      raise UnauthorizedError if response["accessJwt"].nil?
       @access_token = response["accessJwt"]
       @refresh_token = response["refreshJwt"]
     end
 
+    sig { returns(T.nilable(Hash)) }
+
     def get_session
-      HTTParty.get(
-        URI(get_session_uri(pds)),
-        headers: default_authenticated_headers(self),
-      )
+      @xrpc.get.com_atproto_server_getSession
     end
 
     def delete!

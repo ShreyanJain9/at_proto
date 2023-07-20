@@ -11,5 +11,7 @@ require "atmosfire"
 # require "pry"
 # Pry.start
 
+include Atmosfire
+
 require "irb"
 IRB.start(__FILE__)

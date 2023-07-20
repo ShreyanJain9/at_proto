@@ -6,7 +6,7 @@ module Atmosfire
   class UnauthorizedError < HTTPError; end
 
   module RequestUtils # Goal is to replace with pure XRPC eventually
-    def resolve_handle(pds, username)
+    def resolve_handle(username, pds = "https://bsky.social")
       (XRPC::Client.new(pds).get.com_atproto_identity_resolveHandle(handle: username))["did"]
     end
 
