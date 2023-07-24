@@ -5,22 +5,10 @@ module Atmosfire
     extend T::Sig
     include Kernel
 
-    sig { params(url: String, pds: String).returns(T.nilable(AtUri)) }
+    sig { params(url: String, atp_host: String).returns(T.nilable(AtUri)) }
 
-    def at_post_link(url, pds = "https://bsky.social")
-      rulesets = [
-        AtUriParser.create_rule(%r{^#{Regexp.escape("https://")}(bsky\.app)/profile/([\w.]+)/post/([\w]+)$}) do |handle, collection, rkey, pds|
-          handle.start_with?("did:") ? did = handle : did = resolve_handle(handle, pds)
-          AtUri.new(did, "app.bsky.feed.post", rkey)
-        end,
-
-        AtUriParser.create_rule(%r{^at://(\[handle\])/(\[collection\])/(\[rkey\])$}) do |handle, collection, rkey, pds|
-          handle.start_with?("did:") ? did = handle : did = resolve_handle(handle, pds)
-          AtUri.new(did, collection, rkey)
-        end,
-
-      ]
-      AtUriParser.parse("https://bsky.app/profile/emily.bsky.team/post/3jzkm7y2u7f2e", rulesets, pds: pds)
+    def at_uri(url, atp_host = "https://bsky.social")
+      AtUriParser.parse(url, AtUriParser::RuleSets, pds: atp_host)
     end
   end
 end
@@ -28,6 +16,8 @@ end
 module Atmosfire
   module AtUriParser
     extend T::Sig
+    include RequestUtils
+
     Rule = Struct.new(:pattern, :transform)
 
     sig { params(url: String, rulesets: T::Array[Rule], pds: String).returns(T.nilable(AtUri)) }
@@ -49,20 +39,24 @@ module Atmosfire
       end
       Rule.new(pattern, transform)
     end
+    RuleSets = [
+      AtUriParser.create_rule(%r{^#{Regexp.escape("https://")}(bsky\.app)/profile/(.+)/post/([\w]+)$}) do |handle, collection, rkey, pds|
+        handle.start_with?("did:") ? did = handle : did = resolve_handle(handle, pds)
+        AtUri.new(repo: did, collection: "app.bsky.feed.post", rkey: rkey)
+      end,
+
+      AtUriParser.create_rule(%r{^at://(.+)/(.+)/(\w+)$}) do |handle, collection, rkey, pds|
+        handle.start_with?("did:") ? did = handle : did = resolve_handle(handle, pds)
+        AtUri.new(repo: did, collection: collection, rkey: rkey)
+      end,
+    ]
   end
 
-  AtUri = Struct.new :repo, :collection, :rkey do
+  class AtUri < T::Struct
     extend T::Sig
-
-    def initialize(*args)
-      if args.count == 1
-        parts = args[0].split("/")
-        repo, collection, rkey = parts[2], parts[3], parts[4]
-      elsif args.count == 3
-        repo, collection, rkey = args
-      end
-      super(repo, collection, rkey)
-    end
+    const :repo, T.any(Atmosfire::Repo, String)
+    const :collection, T.nilable(T.any(Atmosfire::Repo::Collection, String))
+    const :rkey, T.nilable(String)
 
     sig { returns(String) }
 

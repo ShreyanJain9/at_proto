@@ -1,18 +1,16 @@
-# typed: true
+# typed: strict
 module Atmosfire
   class Repo
-    Collection = Struct.new :repo, :collection do
+    class Collection < T::Struct
+      include RequestUtils
       extend T::Sig
 
-      sig { params(repo: Atmosfire::Repo, lexicon_name: String).void }
-
-      def initialize(repo, lexicon_name)
-        super(repo, lexicon_name)
-      end
+      const(:repo, Atmosfire::Repo)
+      const(:collection, String)
 
       sig { params(limit: Integer).returns(T::Array[Atmosfire::Record]) }
 
-      def list_records(limit = 10)
+      def list(limit = 10)
         self.repo.pds_endpoint
           .get.com_atproto_repo_listRecords(
             repo: self.repo.did,
@@ -26,14 +24,27 @@ module Atmosfire
 
       sig { returns(String) }
 
-      def to_s
+      def to_uri
         "at://#{self.repo.did}/#{self.collection}"
       end
 
-      # sig { params(rkey: String).returns(Atmosfire::Record) }
+      sig { returns(String) }
+
+      def to_s
+        @collection
+      end
+
+      sig { params(rkey: String).returns(T.nilable(Atmosfire::Record)) }
 
       def [](rkey)
-        Atmosfire::Record.from_uri("at://#{self.repo.did}/#{@collection}/#{rkey}", self.repo.pds)
+        Atmosfire::Record.from_uri(
+          T.must(
+            at_uri(
+              "at://#{self.repo.did}/#{@collection}/#{rkey}"
+            )
+          ),
+          self.repo.pds
+        )
       end
     end
   end

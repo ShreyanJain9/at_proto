@@ -6,6 +6,11 @@ class Atmosfire::Repo
 
   sig { params(username: String, pds: String, open: T::Boolean, authenticate: T.nilable(Atmosfire::Session)).void }
 
+  # @param username [String] The username or DID (Decentralized Identifier) to use.
+  # @param pds [String] The URL of the personal data server (default: "https://bsky.social").
+  # @param open [Boolean] Whether to open the repository or not (default: true).
+  # @param authenticate [NilClass, Object] Additional authentication data (default: nil).
+
   def initialize(username, pds = "https://bsky.social", open: true, authenticate: nil)
     @pds = pds
     @pds_endpoint = XRPC::Client.new(pds)
@@ -24,6 +29,16 @@ class Atmosfire::Repo
     @collections = describe_repo["collections"]
   end
 
+  sig { returns(String) }
+
+  def to_uri
+    "at://#{@did}"
+  end
+
+  def to_s
+    @did
+  end
+
   sig { returns(Hash) }
 
   def describe_repo
@@ -39,7 +54,7 @@ class Atmosfire::Repo
   sig { params(collection: String).returns(Atmosfire::Repo::Collection) }
 
   def [](collection)
-    Collection.new(self, collection)
+    Collection.new(repo: self, collection: collection)
   end
 
   attr_reader :did, :record_list, :pds, :pds_endpoint

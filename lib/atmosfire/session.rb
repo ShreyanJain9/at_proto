@@ -1,7 +1,5 @@
 # typed: true
 
-require "atmosfire/requests"
-
 module Atmosfire
   Credentials = Struct.new :username, :pw, :pds do
     extend T::Sig

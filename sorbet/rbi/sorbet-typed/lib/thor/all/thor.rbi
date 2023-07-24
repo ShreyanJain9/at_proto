@@ -5,7 +5,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/edit/master/lib/thor/all/thor.rbi
 #
-# typed: strong
+# typed: false
 
 class Thor
   include(::Thor::Base)

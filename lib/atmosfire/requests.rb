@@ -1,3 +1,4 @@
+# typed: true
 module Atmosfire
   class Error < StandardError; end
 
@@ -36,10 +37,6 @@ module Atmosfire
 
     def get_session_uri(pds)
       "#{pds}/xrpc/com.atproto.server.getSession"
-    end
-
-    def create_record_uri(pds)
-      "#{pds}/xrpc/com.atproto.repo.createRecord"
     end
 
     def delete_record_uri(pds)

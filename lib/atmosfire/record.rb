@@ -4,26 +4,32 @@ module Atmosfire
     extend T::Sig
     class << self
       extend T::Sig
+      include RequestUtils
 
       sig { params(json_hash: Hash).returns(T.nilable(Atmosfire::Record)) }
 
       def from_hash(json_hash)
-        return nil unless json_hash["value"]
+        return nil if json_hash["value"].nil?
         timestamp = nil
-        timestamp = Time.parse json_hash["value"]["createdAt"] if json_hash["value"]["createdAt"]
+        timestamp = Time.parse json_hash["value"]["createdAt"] if json_hash["value"] && json_hash["value"]["createdAt"]
         raw_content = json_hash["value"]
-        new(AtUri.new(json_hash["uri"]), json_hash["cid"], timestamp, raw_content)
+        new(
+          at_uri(
+            T.must(json_hash["uri"])
+          ),
+          json_hash["cid"],
+          timestamp, raw_content
+        )
       end
 
-      sig { params(uri: T.any(String, Atmosfire::AtUri), pds: String).returns(T.nilable(Atmosfire::Record)) }
+      sig { params(uri: Atmosfire::AtUri, pds: String).returns(T.nilable(Atmosfire::Record)) }
 
       def from_uri(uri, pds = "https://bsky.social")
-        url = AtUri.new(uri.to_s)
-        self.from_hash XRPC::Client.new(pds).get.com_atproto_repo_getRecord(
-          repo: url.repo,
-          collection: url.collection,
-          rkey: url.rkey,
-        )
+        from_hash(XRPC::Client.new(pds).get.com_atproto_repo_getRecord(
+          repo: uri.repo.to_s,
+          collection: "#{uri.collection}",
+          rkey: uri.rkey,
+        ))
       end
 
       sig { params(content_hash: Hash, session: Atmosfire::Session, rkey: T.nilable(String)).returns(T.nilable(Atmosfire::Record)) }
@@ -31,19 +37,17 @@ module Atmosfire
       def create(content_hash, session, rkey = nil)
         return nil if content_hash["$type"].nil?
         if rkey.nil?
-          rec = from_uri(session.xrpc.post.com_atproto_repo_createRecord(
+          from_uri(at_uri(session.xrpc.post.com_atproto_repo_createRecord(
             repo: session.did,
             collection: content_hash["$type"],
             record: content_hash,
-          )["uri"])
-          return rec
-        else rec = from_uri(session.xrpc.post.com_atproto_repo_createRecord(
+          )["uri"]))
+        else from_uri(at_uri(session.xrpc.post.com_atproto_repo_createRecord(
           repo: session.did,
           collection: content_hash["$type"],
           rkey: rkey,
           record: content_hash,
-        )["uri"])
-          return rec;         end
+        )["uri"]))         end
       end
     end
 
