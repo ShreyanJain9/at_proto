@@ -1,4 +1,4 @@
-# typed: strict
+# typed: true
 module Atmosfire
   class Repo
     class Collection < T::Struct
@@ -11,7 +11,7 @@ module Atmosfire
       sig { params(limit: Integer).returns(T::Array[Atmosfire::Record]) }
 
       def list(limit = 10)
-        self.repo.pds_endpoint
+        self.repo.xrpc
           .get.com_atproto_repo_listRecords(
             repo: self.repo.did,
             collection: self.collection,
@@ -22,10 +22,16 @@ module Atmosfire
         }
       end
 
+      def list_all()
+        T.must(get_paginated_data(self.repo, :com_atproto_repo_listRecords.to_s, key: "records", params: { repo: self.repo.to_s, collection: self.to_s }, cursor: nil) do |record|
+          Atmosfire::Record.from_hash(record)
+        end)
+      end
+
       sig { returns(String) }
 
       def to_uri
-        "at://#{self.repo.did}/#{self.collection}"
+        "at://#{self.repo.did}/#{self.collection}/"
       end
 
       sig { returns(String) }

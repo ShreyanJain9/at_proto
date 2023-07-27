@@ -12,12 +12,12 @@ class Atmosfire::Repo
   # @param authenticate [NilClass, Object] Additional authentication data (default: nil).
 
   def initialize(username, pds = "https://bsky.social", open: true, authenticate: nil)
-    @pds = pds
-    @pds_endpoint = XRPC::Client.new(pds)
+    @pds = T.let pds, String
+    @xrpc = T.let(XRPC::Client.new(pds), XRPC::Client)
     if username.start_with?("did:")
-      @did = username
+      @did = T.let(username, String)
     else
-      @did = resolve_handle(username, pds)
+      @did = T.let(resolve_handle(username, pds), String)
     end
     @record_list = []
     if open == true
@@ -32,8 +32,10 @@ class Atmosfire::Repo
   sig { returns(String) }
 
   def to_uri
-    "at://#{@did}"
+    "at://#{@did}/"
   end
+
+  sig { returns(String) }
 
   def to_s
     @did
@@ -42,7 +44,7 @@ class Atmosfire::Repo
   sig { returns(Hash) }
 
   def describe_repo
-    @pds_endpoint.get.com_atproto_repo_describeRepo(repo: @did)
+    @xrpc.get.com_atproto_repo_describeRepo(repo: @did)
   end
 
   sig { returns(Hash) }
@@ -57,5 +59,5 @@ class Atmosfire::Repo
     Collection.new(repo: self, collection: collection)
   end
 
-  attr_reader :did, :record_list, :pds, :pds_endpoint
+  attr_reader :did, :record_list, :pds, :xrpc
 end

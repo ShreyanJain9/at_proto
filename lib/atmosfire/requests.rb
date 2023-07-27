@@ -7,6 +7,8 @@ module Atmosfire
   class UnauthorizedError < HTTPError; end
 
   module RequestUtils # Goal is to replace with pure XRPC eventually
+    extend T::Sig
+
     def resolve_handle(username, pds = "https://bsky.social")
       (XRPC::Client.new(pds).get.com_atproto_identity_resolveHandle(handle: username))["did"]
     end
@@ -65,6 +67,42 @@ module Atmosfire
       default_headers.merge({
         Authorization: "Bearer #{session.refresh_token}",
       })
+    end
+
+    sig {
+      params(
+        session: T.any(Atmosfire::Session, Atmosfire::Repo),
+        method: String,
+        key: String,
+        params: Hash,
+        cursor: T.nilable(
+          String
+        ),
+        map_block: T.nilable(Proc),
+      )
+        .returns(T
+          .nilable(
+            Array
+          ))
+    }
+
+    def get_paginated_data(session, method, key:, params:, cursor: nil, &map_block)
+      (send_data = (params.merge({ :limit => 100, :cursor => cursor })))
+      response = session.xrpc.get.public_send(method, **send_data)
+      data = response.dig(key)
+
+      if data.nil? || data.empty?
+        return []
+      end
+
+      results = block_given? ? data.map(&map_block) : data
+      next_cursor = T.let(response.dig("cursor"), T.nilable(String))
+
+      if next_cursor.nil?
+        return results
+      else
+        return results + get_paginated_data(session, method, key: key, params: params, cursor: next_cursor, &map_block)
+      end
     end
   end
 end

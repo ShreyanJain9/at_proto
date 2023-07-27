@@ -5,7 +5,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/edit/master/lib/httparty/all/httparty.rbi
 #
-# typed: false
+# typed: strong
 
 module HTTParty
   include(::HTTParty::ModuleInheritableAttributes)

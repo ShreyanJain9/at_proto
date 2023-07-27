@@ -7,32 +7,52 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/Atmosfire/all/Atmosfire.rbi
 #
-# Atmosfire-0.0.1
+# Atmosfire-0.0.3
 
 module Atmosfire
 end
-class Atmosfire::Record < Struct
-  def cid; end
-  def cid=(_); end
-  def content; end
-  def content=(_); end
-  def delete(*args, **, &blk); end
-  def put(session); end
-  def refresh(pds = nil); end
+module Atmosfire::RequestUtils
+  def at_uri(*args, **, &blk); end
+  extend T::Private::Methods::MethodHooks
+  extend T::Private::Methods::SingletonMethodHooks
+  extend T::Sig
+  include Kernel
+end
+module Atmosfire::AtUriParser
+  def self.create_rule(pattern, &block); end
+  def self.parse(*args, **, &blk); end
+  extend T::Private::Methods::MethodHooks
+  extend T::Private::Methods::SingletonMethodHooks
+  extend T::Sig
+end
+class Atmosfire::AtUriParser::Rule < Struct
+  def pattern; end
+  def pattern=(_); end
   def self.[](*arg0); end
-  def self.create(*args, **, &blk); end
-  def self.from_hash(*args, **, &blk); end
-  def self.from_uri(*args, **, &blk); end
   def self.inspect; end
   def self.keyword_init?; end
   def self.members; end
   def self.new(*arg0); end
-  def timestamp; end
-  def timestamp=(_); end
-  def update(*args, **, &blk); end
-  def uri; end
-  def uri=(_); end
+  def transform; end
+  def transform=(_); end
+end
+class Atmosfire::AtUri < T::Struct
+  def __t_props_generated_deserialize(*args, **); end
+  def __t_props_generated_serialize(*args, **); end
+  def collection; end
+  def repo; end
+  def rkey; end
+  def self.inherited(s); end
+  def to_object(pds: nil); end
+  def to_s(*args, **, &blk); end
   extend T::Private::Methods::MethodHooks
   extend T::Private::Methods::SingletonMethodHooks
+  extend T::Props::ClassMethods
+  extend T::Props::Plugin::ClassMethods
+  extend T::Props::Plugin::ClassMethods
+  extend T::Props::Plugin::ClassMethods
+  extend T::Props::Plugin::ClassMethods
+  extend T::Props::Plugin::ClassMethods
+  extend T::Props::Serializable::ClassMethods
   extend T::Sig
 end

@@ -1,4 +1,4 @@
-# typed: true
+# typed: false
 
 module Atmosfire
   module RequestUtils
@@ -16,7 +16,10 @@ end
 module Atmosfire
   module AtUriParser
     extend T::Sig
-    include RequestUtils
+
+    class << self
+      include RequestUtils
+    end
 
     Rule = Struct.new(:pattern, :transform)
 
@@ -40,15 +43,29 @@ module Atmosfire
       Rule.new(pattern, transform)
     end
     RuleSets = [
-      AtUriParser.create_rule(%r{^#{Regexp.escape("https://")}(bsky\.app)/profile/(.+)/post/([\w]+)$}) do |handle, collection, rkey, pds|
+      AtUriParser.create_rule(%r{^#{Regexp.escape("https://")}(bsky\.app)/profile/(.+)/post/([\w]+)$}) do |_, handle, rkey, pds|
         handle.start_with?("did:") ? did = handle : did = resolve_handle(handle, pds)
         AtUri.new(repo: did, collection: "app.bsky.feed.post", rkey: rkey)
+      end,
+
+      AtUriParser.create_rule(%r{^#{Regexp.escape("https://")}(bsky\.app)/profile/(.+)$}) do |_, handle, pds|
+        handle.start_with?("did:") ? did = handle : did = resolve_handle(handle, pds)
+        AtUri.new(repo: did)
       end,
 
       AtUriParser.create_rule(%r{^at://(.+)/(.+)/(\w+)$}) do |handle, collection, rkey, pds|
         handle.start_with?("did:") ? did = handle : did = resolve_handle(handle, pds)
         AtUri.new(repo: did, collection: collection, rkey: rkey)
       end,
+      AtUriParser.create_rule(%r{^at://(.+)/(.+)$}) do |handle, collection, pds|
+        handle.start_with?("did:") ? did = handle : did = resolve_handle(handle, pds)
+        AtUri.new(repo: did, collection: collection)
+      end,
+      AtUriParser.create_rule(%r{^at://(.+)$}) do |handle, pds|
+        handle.start_with?("did:") ? did = handle : did = resolve_handle(handle, pds)
+        AtUri.new(repo: did)
+      end,
+
     ]
   end
 
@@ -58,10 +75,20 @@ module Atmosfire
     const :collection, T.nilable(T.any(Atmosfire::Repo::Collection, String))
     const :rkey, T.nilable(String)
 
-    sig { returns(String) }
+    def resolve(pds: "https://bsky.social")
+      if @collection.nil?
+        Repo.new(@repo.to_s, pds)
+      elsif @rkey.nil?
+        Repo::Collection.new(Repo.new(@repo.to_s, pds), @collection.to_s, pds)
+      else
+        Record.from_uri(self, pds)
+      end
+    end
 
-    def to_s
-      "at://#{repo}/#{collection}/#{rkey}"
+    sig { params(pds: String).returns(String) }
+
+    def to_s(pds: "https://bsky.social")
+      self.resolve(pds: pds).to_uri
     end
   end
 end

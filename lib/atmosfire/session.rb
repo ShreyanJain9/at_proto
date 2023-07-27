@@ -45,6 +45,8 @@ module Atmosfire
       raise UnauthorizedError if response["accessJwt"].nil?
       @access_token = response["accessJwt"]
       @refresh_token = response["refreshJwt"]
+      @xrpc = XRPC::Client.new(@pds, @access_token)
+      @refresher = XRPC::Client.new(@pds, @refresh_token)
     end
 
     sig { returns(T.nilable(Hash)) }
@@ -63,6 +65,24 @@ module Atmosfire
       else
         raise UnauthorizedError
       end
+    end
+  end
+end
+
+module Atmosfire
+  class TokenSession < Session
+    extend T::Sig
+
+    sig { params(token: String, pds: String).void }
+
+    def initialize(token, pds = "https://bsky.social")
+      @token = token
+      @pds = pds
+      open!
+    end
+
+    def open!
+      @xrpc = XRPC::Client.new(@pds, @token)
     end
   end
 end

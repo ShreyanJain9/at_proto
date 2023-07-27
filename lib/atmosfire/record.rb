@@ -36,18 +36,13 @@ module Atmosfire
 
       def create(content_hash, session, rkey = nil)
         return nil if content_hash["$type"].nil?
-        if rkey.nil?
-          from_uri(at_uri(session.xrpc.post.com_atproto_repo_createRecord(
-            repo: session.did,
-            collection: content_hash["$type"],
-            record: content_hash,
-          )["uri"]))
-        else from_uri(at_uri(session.xrpc.post.com_atproto_repo_createRecord(
+        params = {
           repo: session.did,
           collection: content_hash["$type"],
-          rkey: rkey,
           record: content_hash,
-        )["uri"]))         end
+        }
+        params[:rkey] = rkey unless rkey.nil?
+        from_uri(at_uri(session.xrpc.post.com_atproto_repo_createRecord(params)["uri"]))
       end
     end
 
@@ -68,6 +63,8 @@ module Atmosfire
       self.class.from_uri(self.uri, session.pds)
     end
 
+    sig { params(session: Atmosfire::Session).returns(T.nilable(Atmosfire::Record)) }
+
     def put(session)
       session.xrpc.post.com_atproto_repo_putRecord(
         repo: session.did,
@@ -85,6 +82,10 @@ module Atmosfire
         collection: self.uri.collection,
         rkey: self.uri.rkey,
       )
+    end
+
+    def to_uri
+      "at://#{self.uri.repo}/#{self.uri.collection}/#{self.uri.rkey}"
     end
   end
 end
