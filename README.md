@@ -16,11 +16,11 @@ DON'T
 <!--
 Install the gem and add to the application's Gemfile by executing:
 
-    $ bundle add Atmosfire
+    $ bundle add ATProto
 
 If bundler is not being used to manage dependencies, install the gem by executing:
 
-    $ gem install Atmosfire -->
+    $ gem install ATProto -->
 
 You will probably want to install it as a part of [Bskyrb](https://github.com/ShreyanJain9/bskyrb instead
 
@@ -33,7 +33,7 @@ You can also install the gem by cloning this repository and running `./install-l
 TODO write docs
 
 ```ruby
-require 'atmosfire'
+require 'at_proto'
 ```
 
 ## Development

@@ -1,6 +1,6 @@
 # typed: false
 
-module Atmosfire
+module ATProto
   module RequestUtils
     extend T::Sig
     include Kernel
@@ -15,7 +15,7 @@ module Atmosfire
   end
 end
 
-module Atmosfire
+module ATProto
   CID = Skyfall::CID
 
   module AtUriParser
@@ -76,8 +76,8 @@ module Atmosfire
 
   class AtUri < T::Struct
     extend T::Sig
-    const :repo, T.any(Atmosfire::Repo, String)
-    const :collection, T.nilable(T.any(Atmosfire::Repo::Collection, String))
+    const :repo, T.any(ATProto::Repo, String)
+    const :collection, T.nilable(T.any(ATProto::Repo::Collection, String))
     const :rkey, T.nilable(String)
 
     def resolve(pds: "https://bsky.social")

@@ -1,10 +1,10 @@
 # typed: true
 
-class Atmosfire::Repo
-  include Atmosfire::RequestUtils
+class ATProto::Repo
+  include ATProto::RequestUtils
   extend T::Sig
 
-  sig { params(username: String, pds: String, open: T::Boolean, authenticate: T.nilable(Atmosfire::Session)).void }
+  sig { params(username: String, pds: String, open: T::Boolean, authenticate: T.nilable(ATProto::Session)).void }
 
   # @param username [String] The username or DID (Decentralized Identifier) to use.
   # @param pds [String] The URL of the personal data server (default: "https://bsky.social").
@@ -53,7 +53,7 @@ class Atmosfire::Repo
     describe_repo()["didDoc"]
   end
 
-  sig { params(collection: String).returns(Atmosfire::Repo::Collection) }
+  sig { params(collection: String).returns(ATProto::Repo::Collection) }
 
   def [](collection)
     Collection.new(repo: self, collection: collection)

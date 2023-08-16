@@ -1,5 +1,5 @@
 # typed: false
-module Atmosfire
+module ATProto
   module DID
     class Document
       extend T::Sig
@@ -47,10 +47,10 @@ module Atmosfire
       const :did, String
 
       dynamic_attr_reader(:document) {
-        Atmosfire::DID::Document.new(HTTParty.get("https://#{@plc_dir}/#{@did}"))
+        ATProto::DID::Document.new(HTTParty.get("https://#{@plc_dir}/#{@did}"))
       }
 
-      dynamic_attr_reader(:repo) { Atmosfire::Repo.new(@did, @pds) }
+      dynamic_attr_reader(:repo) { ATProto::Repo.new(@did, @pds) }
     end
   end
 end

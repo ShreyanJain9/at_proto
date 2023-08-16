@@ -1,7 +1,7 @@
 # typed: false
-module Atmosfire
+module ATProto
   class Record < T::Struct
-    const(:uri, Atmosfire::AtUri)
+    const(:uri, ATProto::AtUri)
     const(:cid, Skyfall::CID)
     const(:timestamp, T.untyped)
     prop(:content, Hash)
@@ -10,7 +10,7 @@ module Atmosfire
       extend T::Sig
       include RequestUtils
 
-      sig { params(json_hash: Hash).returns(T.nilable(Atmosfire::Record)) }
+      sig { params(json_hash: Hash).returns(T.nilable(ATProto::Record)) }
 
       def from_hash(json_hash)
         return nil if json_hash["value"].nil?
@@ -26,7 +26,7 @@ module Atmosfire
         )
       end
 
-      sig { params(uri: Atmosfire::AtUri, pds: String).returns(T.nilable(Atmosfire::Record)) }
+      sig { params(uri: ATProto::AtUri, pds: String).returns(T.nilable(ATProto::Record)) }
 
       def from_uri(uri, pds = "https://bsky.social")
         from_hash(XRPC::Client.new(pds).get.com_atproto_repo_getRecord(
@@ -36,7 +36,7 @@ module Atmosfire
         ))
       end
 
-      sig { params(content_hash: Hash, session: Atmosfire::Session, rkey: T.nilable(String)).returns(T.nilable(Atmosfire::Record)) }
+      sig { params(content_hash: Hash, session: ATProto::Session, rkey: T.nilable(String)).returns(T.nilable(ATProto::Record)) }
 
       def create(content_hash, session, rkey = nil)
         return nil if content_hash["$type"].nil?
@@ -56,22 +56,22 @@ module Atmosfire
       self.class.from_uri(self.uri, pds)
     end
 
-    sig { params(session: Atmosfire::Session).returns(T.nilable(Atmosfire::Record)) }
+    sig { params(session: ATProto::Session).returns(T.nilable(ATProto::Record)) }
 
     def put(session)
       session.then(&to_write(:update)).uri.resolve(pds: session.pds)
     end
 
-    sig { params(session: Atmosfire::Session).returns(T.nilable(Integer)) }
+    sig { params(session: ATProto::Session).returns(T.nilable(Integer)) }
 
     def delete(session)
       session.then(&to_write)
     end
 
-    sig { params(type: Symbol).returns(Atmosfire::Writes::Write) }
+    sig { params(type: Symbol).returns(ATProto::Writes::Write) }
 
     def to_write(type = :delete)
-      Atmosfire::Writes::Write.new(
+      ATProto::Writes::Write.new(
         {
           action: Writes::Write::Action.deserialize(type),
           value: (self.content if type == :update),
@@ -81,7 +81,7 @@ module Atmosfire
       )
     end
 
-    sig { params(other: Atmosfire::Record).returns(T::Boolean) }
+    sig { params(other: ATProto::Record).returns(T::Boolean) }
 
     def ==(other)
       self.cid.to_s == other.cid.to_s

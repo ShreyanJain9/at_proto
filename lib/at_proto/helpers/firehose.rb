@@ -1,3 +1,3 @@
 # typed: strict
 require "skyfall"
-require "atmosfire"
+require "at_proto"

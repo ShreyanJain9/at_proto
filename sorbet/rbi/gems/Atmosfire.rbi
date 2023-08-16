@@ -5,15 +5,15 @@
 #
 # If you would like to make changes to this file, great! Please create the gem's shim here:
 #
-#   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/Atmosfire/all/Atmosfire.rbi
+#   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/ATProto/all/ATProto.rbi
 #
-# Atmosfire-0.0.4
+# ATProto-0.0.4
 
-module Atmosfire
+module ATProto
 end
-module Atmosfire::DID
+module ATProto::DID
 end
-class Atmosfire::DID::Document
+class ATProto::DID::Document
   def alsoKnownAs; end
   def context; end
   def id; end
@@ -24,7 +24,7 @@ class Atmosfire::DID::Document
   extend T::Private::Methods::SingletonMethodHooks
   extend T::Sig
 end
-class Atmosfire::DID::VerificationMethod
+class ATProto::DID::VerificationMethod
   def controller; end
   def id; end
   def initialize(*args, **, &blk); end
@@ -34,7 +34,7 @@ class Atmosfire::DID::VerificationMethod
   extend T::Private::Methods::SingletonMethodHooks
   extend T::Sig
 end
-class Atmosfire::DID::Service
+class ATProto::DID::Service
   def id; end
   def id=(arg0); end
   def initialize(data); end
@@ -43,7 +43,7 @@ class Atmosfire::DID::Service
   def type; end
   def type=(arg0); end
 end
-class Atmosfire::DID::PLC < T::Struct
+class ATProto::DID::PLC < T::Struct
   def __t_props_generated_deserialize(*args, **); end
   def __t_props_generated_serialize(*args, **); end
   def did; end

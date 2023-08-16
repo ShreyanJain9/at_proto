@@ -1,8 +1,8 @@
 # typed: false
-RSpec.describe(Atmosfire::RequestUtils) do
+RSpec.describe(ATProto::RequestUtils) do
   describe "#at_uri" do
     it "successfully parses a bsky.app post url" do
-      real_uri = Atmosfire::AtUri.new(
+      real_uri = ATProto::AtUri.new(
         repo: resolve_handle("bsky.app"), collection: "app.bsky.feed.post", rkey: "3juhccum3pv2k",
       )
       parsed_uri = at_uri("https://bsky.app/profile/bsky.app/post/3juhccum3pv2k")

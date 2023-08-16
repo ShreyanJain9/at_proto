@@ -1,5 +1,5 @@
 # typed: true
-module Atmosfire
+module ATProto
   class Writes < T::Struct
     class Write < T::Struct
       class Action < T::Enum
@@ -71,7 +71,7 @@ module Atmosfire
             if response.is_a?(Numeric)
               response
             elsif response.is_a?(Hash)
-              Atmosfire::Record::StrongRef.new(
+              ATProto::Record::StrongRef.new(
                 uri: RequestUtils.at_uri(response["uri"]),
                 cid: Skyfall::CID.from_json(response["cid"]),
               )
@@ -83,8 +83,8 @@ module Atmosfire
 
     extend T::Sig
     prop(:writes, T::Array[Write])
-    prop(:repo, Atmosfire::Repo)
-    prop(:session, Atmosfire::Session)
+    prop(:repo, ATProto::Repo)
+    prop(:session, ATProto::Session)
 
     sig { returns(Hash) }
 
@@ -128,7 +128,7 @@ module Atmosfire
         })
       end
 
-      sig { params(uri: T.any(String, Atmosfire::AtUri), hash: Hash).returns(T::Array[Write]) }
+      sig { params(uri: T.any(String, ATProto::AtUri), hash: Hash).returns(T::Array[Write]) }
 
       def update(uri, hash)
         aturi = at_uri(uri)
@@ -140,7 +140,7 @@ module Atmosfire
         })
       end
 
-      sig { params(uri: T.any(String, Atmosfire::AtUri)).returns(T::Array[Write]) }
+      sig { params(uri: T.any(String, ATProto::AtUri)).returns(T::Array[Write]) }
 
       def delete(uri)
         aturi = at_uri(uri)

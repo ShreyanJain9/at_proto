@@ -1,11 +1,11 @@
 # typed: strict
 # frozen_string_literal: true
 
-require "atmosfire/at_uri"
-require "atmosfire/collection"
-require "atmosfire/record"
-require "atmosfire/repo"
-require "atmosfire/requests"
-require "atmosfire/session"
+require "at_proto/at_uri"
+require "at_proto/collection"
+require "at_proto/record"
+require "at_proto/repo"
+require "at_proto/requests"
+require "at_proto/session"
 require "sorbet-runtime"
 require "xrpc"

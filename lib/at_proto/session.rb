@@ -1,6 +1,6 @@
 # typed: true
 
-module Atmosfire
+module ATProto
   Credentials = Struct.new :username, :pw, :pds do
     extend T::Sig
 
@@ -18,7 +18,7 @@ module Atmosfire
 
     attr_reader :pds, :access_token, :refresh_token, :did, :xrpc
 
-    sig { params(credentials: Atmosfire::Credentials, should_open: T::Boolean).void }
+    sig { params(credentials: ATProto::Credentials, should_open: T::Boolean).void }
 
     def initialize(credentials, should_open = true)
       @credentials = credentials
@@ -69,7 +69,7 @@ module Atmosfire
   end
 end
 
-module Atmosfire
+module ATProto
   class TokenSession < Session
     extend T::Sig
 

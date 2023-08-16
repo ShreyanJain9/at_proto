@@ -1,10 +1,10 @@
 # typed: true
-module Atmosfire
+module ATProto
   class Record
     class StrongRef < T::Struct
       include RequestUtils
       extend T::Sig
-      const :uri, Atmosfire::AtUri
+      const :uri, ATProto::AtUri
       prop :cid, Skyfall::CID
 
       def to_json

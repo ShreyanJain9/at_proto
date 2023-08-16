@@ -1,5 +1,5 @@
 # typed: true
-module Atmosfire
+module ATProto
   class Error < StandardError; end
 
   class HTTPError < Error; end
@@ -71,7 +71,7 @@ module Atmosfire
 
     sig {
       params(
-        session: T.any(Atmosfire::Session, Atmosfire::Repo),
+        session: T.any(ATProto::Session, ATProto::Repo),
         method: String,
         key: String,
         params: Hash,
