@@ -3,6 +3,7 @@ module Atmosfire
   class Repo
     class Collection < T::Struct
       include RequestUtils
+      include Enumerable
       extend T::Sig
 
       const(:repo, Atmosfire::Repo)
@@ -51,6 +52,10 @@ module Atmosfire
           ),
           self.repo.pds
         )
+      end
+
+      def each(&block)
+        list_all.each(&block)
       end
     end
   end

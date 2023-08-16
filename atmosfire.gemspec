@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.version = Atmosfire::VERSION
   spec.authors = ["Shreyan Jain", "Tynan Burke"]
   spec.email = ["shreyan.jain.9@outlook.com"]
-  spec.description = "A Ruby gem for interacting with atmosfire"
+  spec.description = "A Ruby gem for interacting with AT Protocol"
   spec.summary = "Interact with the AT Protocol using Ruby"
   spec.homepage = "https://github.com/ShreyanJain9/atmosfire"
   spec.license = "MIT"

@@ -89,9 +89,9 @@ class Array
   def place(*values); end
 end
 class File < IO
-  def self.executable?(arg0); end
-  def self.executable_real?(arg0); end
+  def self.world_readable?(arg0); end
   def self.world_writable?(arg0); end
+  def self.writable?(arg0); end
   def self.writable_real?(arg0); end
 end
 class Insertion
@@ -832,9 +832,9 @@ class YARD::Handlers::Ruby::ClassHandler < YARD::Handlers::Ruby::Base
   def parse_struct_superclass(klass, superclass); end
   def parse_superclass(superclass); end
   def struct_superclass_name(superclass); end
-  include Anonymous_Module_5
+  include Anonymous_Module_6
   include YARD::Handlers::Ruby::StructHandlerMethods
 end
-module Anonymous_Module_5
+module Anonymous_Module_6
   def process; end
 end

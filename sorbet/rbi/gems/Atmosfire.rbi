@@ -7,46 +7,50 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/Atmosfire/all/Atmosfire.rbi
 #
-# Atmosfire-0.0.3
+# Atmosfire-0.0.4
 
 module Atmosfire
 end
-module Atmosfire::RequestUtils
-  def at_uri(*args, **, &blk); end
+module Atmosfire::DID
+end
+class Atmosfire::DID::Document
+  def alsoKnownAs; end
+  def context; end
+  def id; end
+  def initialize(*args, **, &blk); end
+  def service; end
+  def verificationMethod; end
   extend T::Private::Methods::MethodHooks
   extend T::Private::Methods::SingletonMethodHooks
   extend T::Sig
-  include Kernel
 end
-module Atmosfire::AtUriParser
-  def self.create_rule(pattern, &block); end
-  def self.parse(*args, **, &blk); end
+class Atmosfire::DID::VerificationMethod
+  def controller; end
+  def id; end
+  def initialize(*args, **, &blk); end
+  def publicKeyMultibase; end
+  def type; end
   extend T::Private::Methods::MethodHooks
   extend T::Private::Methods::SingletonMethodHooks
   extend T::Sig
 end
-class Atmosfire::AtUriParser::Rule < Struct
-  def pattern; end
-  def pattern=(_); end
-  def self.[](*arg0); end
-  def self.inspect; end
-  def self.keyword_init?; end
-  def self.members; end
-  def self.new(*arg0); end
-  def transform; end
-  def transform=(_); end
+class Atmosfire::DID::Service
+  def id; end
+  def id=(arg0); end
+  def initialize(data); end
+  def serviceEndpoint; end
+  def serviceEndpoint=(arg0); end
+  def type; end
+  def type=(arg0); end
 end
-class Atmosfire::AtUri < T::Struct
+class Atmosfire::DID::PLC < T::Struct
   def __t_props_generated_deserialize(*args, **); end
   def __t_props_generated_serialize(*args, **); end
-  def collection; end
+  def did; end
+  def document; end
+  def plc_dir; end
   def repo; end
-  def rkey; end
   def self.inherited(s); end
-  def to_object(pds: nil); end
-  def to_s(*args, **, &blk); end
-  extend T::Private::Methods::MethodHooks
-  extend T::Private::Methods::SingletonMethodHooks
   extend T::Props::ClassMethods
   extend T::Props::Plugin::ClassMethods
   extend T::Props::Plugin::ClassMethods

@@ -5,9 +5,11 @@
 #
 # If you would like to make changes to this file, great! Please create the gem's shim here:
 #
-#   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/ruby-lsp/all/ruby-lsp.rbi
+#   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/rspec/all/rspec.rbi
 #
-# ruby-lsp-0.5.1
+# rspec-3.12.0
 
-module RubyLsp
+module RSpec
+end
+module RSpec::Version
 end

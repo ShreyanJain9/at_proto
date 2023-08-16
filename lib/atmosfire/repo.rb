@@ -59,5 +59,9 @@ class Atmosfire::Repo
     Collection.new(repo: self, collection: collection)
   end
 
+  def inspect
+    "Repo(#{@did})"
+  end
+
   attr_reader :did, :record_list, :pds, :xrpc
 end

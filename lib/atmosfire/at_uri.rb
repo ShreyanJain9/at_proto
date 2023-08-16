@@ -14,6 +14,8 @@ module Atmosfire
 end
 
 module Atmosfire
+  CID = Skyfall::CID
+
   module AtUriParser
     extend T::Sig
 
@@ -85,10 +87,10 @@ module Atmosfire
       end
     end
 
-    sig { params(pds: String).returns(String) }
+    sig { returns(String) }
 
-    def to_s(pds: "https://bsky.social")
-      self.resolve(pds: pds).to_uri
+    def to_s
+      "at://#{@repo}/#{@collection.nil? ? "" : "#{@collection}/"}#{@rkey}"
     end
   end
 end

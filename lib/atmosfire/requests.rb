@@ -87,21 +87,38 @@ module Atmosfire
     }
 
     def get_paginated_data(session, method, key:, params:, cursor: nil, &map_block)
-      (send_data = (params.merge({ :limit => 100, :cursor => cursor })))
-      response = session.xrpc.get.public_send(method, **send_data)
-      data = response.dig(key)
+      params.merge({ limit: 100, cursor: cursor }).then do |send_data|
+        session.xrpc.get.public_send(method, **send_data).then do |response|
+          response.dig(key).then do |data|
+            if data.nil? || data.empty?
+              return []
+            end
 
-      if data.nil? || data.empty?
-        return []
-      end
-
-      results = block_given? ? data.map(&map_block) : data
-      next_cursor = T.let(response.dig("cursor"), T.nilable(String))
-
-      if next_cursor.nil?
-        return results
-      else
-        return results + get_paginated_data(session, method, key: key, params: params, cursor: next_cursor, &map_block)
+            if block_given?
+              data.map(&map_block).then do |results|
+                response.dig("cursor").then do |next_cursor|
+                  if next_cursor.nil?
+                    return results
+                  else
+                    get_paginated_data(session, method, key: key, params: params, cursor: next_cursor, &map_block).then do |next_results|
+                      return results + next_results
+                    end
+                  end
+                end
+              end
+            else
+              response.dig("cursor").then do |next_cursor|
+                if next_cursor.nil?
+                  return data
+                else
+                  get_paginated_data(session, method, key: key, params: params, cursor: next_cursor, &map_block).then do |next_results|
+                    return data + next_results
+                  end
+                end
+              end
+            end
+          end
+        end
       end
     end
   end

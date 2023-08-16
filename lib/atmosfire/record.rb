@@ -1,6 +1,10 @@
-# typed: true
+# typed: false
 module Atmosfire
-  Record = Struct.new :uri, :cid, :timestamp, :content do
+  class Record < T::Struct
+    const(:uri, Atmosfire::AtUri)
+    const(:cid, Skyfall::CID)
+    const(:timestamp, T.untyped)
+    prop(:content, Hash)
     extend T::Sig
     class << self
       extend T::Sig
@@ -14,11 +18,11 @@ module Atmosfire
         timestamp = Time.parse json_hash["value"]["createdAt"] if json_hash["value"] && json_hash["value"]["createdAt"]
         raw_content = json_hash["value"]
         new(
-          at_uri(
+          uri: at_uri(
             T.must(json_hash["uri"])
           ),
-          json_hash["cid"],
-          timestamp, raw_content
+          cid: CID.from_json(json_hash["cid"]),
+          timestamp: timestamp, content: raw_content,
         )
       end
 
@@ -45,6 +49,8 @@ module Atmosfire
         from_uri(at_uri(session.xrpc.post.com_atproto_repo_createRecord(params)["uri"]))
       end
     end
+    dynamic_attr_reader(:to_uri) { "at://#{self.uri.repo}/#{self.uri.collection}/#{self.uri.rkey}" }
+    dynamic_attr_reader(:strongref) { StrongRef.new(uri: self.uri, cid: self.cid) }
 
     def refresh(pds = "https://bsky.social")
       self.class.from_uri(self.uri, pds)
@@ -84,8 +90,10 @@ module Atmosfire
       )
     end
 
-    def to_uri
-      "at://#{self.uri.repo}/#{self.uri.collection}/#{self.uri.rkey}"
+    sig { params(other: Atmosfire::Record).returns(T::Boolean) }
+
+    def ==(other)
+      self.cid.to_s == other.cid.to_s
     end
   end
 end
