@@ -33,7 +33,7 @@ You can also install the gem by cloning this repository and running `./install-l
 TODO write docs
 
 ```ruby
-require 'at_proto'
+require 'at_protocol'
 ```
 
 ## Development

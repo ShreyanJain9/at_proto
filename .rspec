@@ -1,2 +1,2 @@
---require at_proto
+--require at_protocol
 --require spec_helper
