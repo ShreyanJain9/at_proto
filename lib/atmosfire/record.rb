@@ -58,35 +58,26 @@ module Atmosfire
 
     sig { params(session: Atmosfire::Session).returns(T.nilable(Atmosfire::Record)) }
 
-    def update(session)
-      self.delete(session)
-      session.xrpc.post.com_atproto_repo_createRecord(
-        repo: session.did,
-        collection: self.uri.collection,
-        rkey: self.uri.rkey,
-        record: self.content,
-      )
-      self.class.from_uri(self.uri, session.pds)
-    end
-
-    sig { params(session: Atmosfire::Session).returns(T.nilable(Atmosfire::Record)) }
-
     def put(session)
-      session.xrpc.post.com_atproto_repo_putRecord(
-        repo: session.did,
-        collection: self.uri.collection,
-        rkey: self.uri.rkey,
-        record: self.content,
-      )
+      session.then(&to_write(:update)).uri.resolve(pds: session.pds)
     end
 
     sig { params(session: Atmosfire::Session).returns(T.nilable(Integer)) }
 
     def delete(session)
-      session.xrpc.post.com_atproto_repo_deleteRecord(
-        repo: session.did,
-        collection: self.uri.collection,
-        rkey: self.uri.rkey,
+      session.then(&to_write)
+    end
+
+    sig { params(type: Symbol).returns(Atmosfire::Writes::Write) }
+
+    def to_write(type = :delete)
+      Atmosfire::Writes::Write.new(
+        {
+          action: Writes::Write::Action.deserialize(type),
+          value: (self.content if type == :update),
+          collection: self.uri.collection,
+          rkey: self.uri.rkey,
+        }.compact
       )
     end
 

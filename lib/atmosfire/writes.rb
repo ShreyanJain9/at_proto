@@ -1,0 +1,155 @@
+# typed: true
+module Atmosfire
+  class Writes < T::Struct
+    class Write < T::Struct
+      class Action < T::Enum
+        enums do
+          Create = new(:create)
+          Update = new(:update)
+          Delete = new(:delete)
+        end
+      end
+
+      extend T::Sig
+      prop(:action, Action)
+      prop(:value, T.nilable(Hash))
+      prop(:collection, String)
+      prop(:rkey, T.nilable(String))
+
+      sig { returns(T::Hash[Symbol, T.any(String, Symbol, Hash)]) }
+
+      def to_h
+        {
+          :"$type" => "com.atproto.repo.applyWrites##{self.action.serialize}",
+          action: self.action.serialize,
+          value: self.value || nil,
+          collection: self.collection,
+          rkey: self.rkey || nil,
+        }.compact
+      end
+
+      ## If you want to use with individual actions instead of applyWrites:
+      def endpoint_name
+        case self.action
+        when Action::Create
+          "com_atproto_repo_createRecord"
+        when Action::Update
+          "com_atproto_repo_putRecord"
+        when Action::Delete
+          "com_atproto_repo_deleteRecord"
+        end
+      end
+
+      def to_individual_hash(session)
+        case self.action
+        when Action::Create
+          {
+            repo: session.did,
+            collection: self.collection.to_s,
+            record: self.value,
+            rkey: self.rkey || nil,
+          }.compact
+        when Action::Update
+          {
+            repo: session.did,
+            collection: self.collection.to_s,
+            rkey: self.rkey,
+            record: self.value,
+          }.compact
+        when Action::Delete
+          {
+            repo: session.did,
+            collection: self.collection.to_s,
+            rkey: self.rkey,
+          }.compact
+        end
+      end
+
+      def to_proc
+        ->session {
+          session.xrpc.post.send(self.endpoint_name, **self.to_individual_hash(session)).then do |response|
+            if response.is_a?(Numeric)
+              response
+            elsif response.is_a?(Hash)
+              Atmosfire::Record::StrongRef.new(
+                uri: RequestUtils.at_uri(response["uri"]),
+                cid: Skyfall::CID.from_json(response["cid"]),
+              )
+            end
+          end
+        }
+      end
+    end
+
+    extend T::Sig
+    prop(:writes, T::Array[Write])
+    prop(:repo, Atmosfire::Repo)
+    prop(:session, Atmosfire::Session)
+
+    sig { returns(Hash) }
+
+    def to_h
+      {
+        writes: self.writes.map(&:to_h).compact,
+        repo: self.repo.to_s,
+      }.compact
+    end
+
+    def apply
+      self.session.xrpc.post.com_atproto_repo_applyWrites(**to_h)
+    end
+
+    class << self
+      extend T::Sig
+      sig { params(block: Proc).returns(T::Array[Write]) }
+
+      def generate(&block)
+        Collector.new.instance_eval(&block)
+      end
+    end
+  end
+
+  class Writes
+    class Collector
+      include RequestUtils
+      extend T::Sig
+
+      def initialize
+        @writes = []
+      end
+
+      sig { params(hash: Hash).returns(T::Array[Write]) }
+
+      def create(hash)
+        @writes << Write.new({
+          action: Write::Action::Create,
+          value: hash,
+          collection: hash["$type"] || hash[:"$type"],
+        })
+      end
+
+      sig { params(uri: T.any(String, Atmosfire::AtUri), hash: Hash).returns(T::Array[Write]) }
+
+      def update(uri, hash)
+        aturi = at_uri(uri)
+        @writes << Write.new({
+          action: Write::Action::Update,
+          value: hash,
+          collection: T.must(aturi).collection.to_s,
+          rkey: T.must(aturi).rkey,
+        })
+      end
+
+      sig { params(uri: T.any(String, Atmosfire::AtUri)).returns(T::Array[Write]) }
+
+      def delete(uri)
+        aturi = at_uri(uri)
+        @writes << Write.new({
+          action: Write::Action::Delete,
+          collection: T.must(aturi).collection.to_s,
+          rkey: T.must(aturi).rkey,
+        })
+      end
+    end
+  end
+end

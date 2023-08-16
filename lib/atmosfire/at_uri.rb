@@ -10,6 +10,8 @@ module Atmosfire
     def at_uri(url, atp_host = "https://bsky.social")
       AtUriParser.parse(url, AtUriParser::RuleSets, pds: atp_host)
     end
+
+    module_function :at_uri
   end
 end
 
@@ -25,8 +27,9 @@ module Atmosfire
 
     Rule = Struct.new(:pattern, :transform)
 
-    sig { params(url: String, rulesets: T::Array[Rule], pds: String).returns(T.nilable(AtUri)) }
+    sig { params(url: T.any(String, AtUri), rulesets: T::Array[Rule], pds: String).returns(T.nilable(AtUri)) }
     def self.parse(url, rulesets, pds: "https://bsky.social")
+      return url if url.is_a?(AtUri)
       rulesets.each do |ruleset|
         match_data = url.match(ruleset.pattern)
         next unless match_data
