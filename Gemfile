@@ -17,3 +17,5 @@ gem "tapioca", "~> 0.7.3"
 gem "skyfall", "~> 0.2.0"
 
 gem "rspec", "~> 3.12"
+
+gem "steep", "~> 1.5"

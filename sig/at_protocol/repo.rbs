@@ -1,0 +1,29 @@
+class ATProto::Repo
+  include ATProto::RequestUtils
+
+  extend T::Sig
+
+  def initialize: (untyped username, ?::String pds, ?open: bool, ?authenticate: untyped?) -> void
+
+  def open!: () -> untyped
+
+  def to_uri: () -> ::String
+
+  def to_s: () -> untyped
+
+  def describe_repo: () -> untyped
+
+  def did_document: () -> untyped
+
+  def []: (untyped collection) -> untyped
+
+  def inspect: () -> ::String
+
+  attr_reader did: untyped
+
+  attr_reader record_list: untyped
+
+  attr_reader pds: untyped
+
+  attr_reader xrpc: untyped
+end

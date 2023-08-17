@@ -1,0 +1,14 @@
+# typed: true
+module ATProto
+  class Record
+    class StrongRef < T::Struct
+      include RequestUtils
+
+      extend T::Sig
+
+      def to_json: () -> ::Hash[::String, untyped]
+
+      def inspect: () -> untyped
+    end
+  end
+end

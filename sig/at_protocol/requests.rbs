@@ -1,0 +1,43 @@
+# typed: true
+module ATProto
+  class Error < StandardError
+  end
+
+  class HTTPError < Error
+  end
+
+  class UnauthorizedError < HTTPError
+  end
+
+  module RequestUtils
+    extend T::Sig
+
+    def resolve_handle: (untyped username, ?::String pds) -> untyped
+
+    def query_obj_to_query_params: (untyped q) -> untyped
+
+    def default_headers: () -> ::Hash[::String, "application/json"]
+
+    def create_session_uri: (untyped pds) -> ::String
+
+    def delete_session_uri: (untyped pds) -> ::String
+
+    def refresh_session_uri: (untyped pds) -> ::String
+
+    def get_session_uri: (untyped pds) -> ::String
+
+    def delete_record_uri: (untyped pds) -> ::String
+
+    def mute_actor_uri: (untyped pds) -> ::String
+
+    def upload_blob_uri: (untyped pds) -> ::String
+
+    def get_post_thread_uri: (untyped pds, untyped query) -> ::String
+
+    def default_authenticated_headers: (untyped session) -> untyped
+
+    def refresh_token_headers: (untyped session) -> untyped
+
+    def get_paginated_data: (untyped session, untyped method, key: untyped, params: untyped, ?cursor: untyped?) ?{ () -> untyped } -> untyped
+  end
+end

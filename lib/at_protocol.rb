@@ -17,11 +17,7 @@ end
 
 require :"skyfall/cid".to_s
 require "xrpc"
-require "at_protocol/requests"
-require "at_protocol/session"
-require "at_protocol/repo"
-require "at_protocol/collection"
-require "at_protocol/at_uri"
-require "at_protocol/writes"
-require "at_protocol/record"
-require "at_protocol/helpers/strongref"
+
+%w(requests session repo collection at_uri writes record record/strongref).each do |name|
+  require "at_protocol/#{name}"
+end
