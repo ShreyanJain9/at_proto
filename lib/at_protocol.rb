@@ -15,7 +15,7 @@ class Class
   end
 end
 
-require :"skyfall/cid".to_s
+require "skyfall/cid"
 require "xrpc"
 
 %w(requests session repo collection at_uri writes record record/strongref).each do |name|

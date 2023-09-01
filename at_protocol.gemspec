@@ -2,8 +2,7 @@ lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "at_protocol/version"
 
-specfiles = Dir["./lib/at_protocol/*"]
-specfiles.push("./lib/at_protocol.rb")
+specfiles = Dir["./lib/**/*.rb"]
 
 Gem::Specification.new do |spec|
   spec.name = "at_protocol"

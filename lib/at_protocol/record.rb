@@ -46,7 +46,7 @@ module ATProto
           record: content_hash,
         }
         params[:rkey] = rkey unless rkey.nil?
-        from_uri(at_uri(session.xrpc.post.com_atproto_repo_createRecord(params)["uri"]))
+        from_uri(at_uri(session.xrpc.post.com_atproto_repo_createRecord(**params)["uri"]))
       end
     end
     dynamic_attr_reader(:to_uri) { "at://#{self.uri.repo}/#{self.uri.collection}/#{self.uri.rkey}" }
@@ -72,19 +72,19 @@ module ATProto
 
     def to_write(type = :delete)
       ATProto::Writes::Write.new(
-        {
+        **({
           action: Writes::Write::Action.deserialize(type),
           value: (self.content if type == :update),
           collection: self.uri.collection,
           rkey: self.uri.rkey,
-        }.compact
+        }.compact),
       )
     end
 
     sig { params(other: ATProto::Record).returns(T::Boolean) }
 
     def ==(other)
-      self.cid.to_s == other.cid.to_s
+      self.cid.to_s == other.cid.to_s && self.uri.to_s == other.uri.to_s
     end
   end
 end
