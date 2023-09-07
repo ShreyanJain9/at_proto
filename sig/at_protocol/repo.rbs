@@ -9,21 +9,21 @@ class ATProto::Repo
 
   def to_uri: () -> ::String
 
-  def to_s: () -> untyped
+  def to_s: () -> ::String
 
   def describe_repo: () -> untyped
 
   def did_document: () -> untyped
 
-  def []: (untyped collection) -> untyped
+  def []: (untyped collection) -> ATProto::Repo::Collection
 
   def inspect: () -> ::String
 
-  attr_reader did: untyped
+  attr_reader did: ::String
 
   attr_reader record_list: untyped
 
-  attr_reader pds: untyped
+  attr_reader pds: ::String
 
-  attr_reader xrpc: untyped
+  attr_reader xrpc: ::XRPC::Client
 end
