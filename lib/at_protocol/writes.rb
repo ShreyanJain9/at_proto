@@ -1,5 +1,7 @@
 # typed: true
 module ATProto
+  extend T::Sig
+
   class Writes < T::Struct
     class Write < T::Struct
       class Action < T::Enum
@@ -101,12 +103,11 @@ module ATProto
 
     class << self
       extend T::Sig
-      sig { params(block: Proc).returns(T::Array[Write]) }
-
-      def generate(&block)
-        Collector.new.instance_eval(&block)
-      end
     end
+  end
+
+  def self.Writes(session, &block)
+    Writes.new(writes: Writes::Collector.new.instance_eval(&block), session: session, repo: Repo.new(session.did))
   end
 
   class Writes

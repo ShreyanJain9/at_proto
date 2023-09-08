@@ -13,6 +13,10 @@ module ATProto
 
     module_function :at_uri
   end
+
+  def self.AtUri(str)
+    RequestUtils.at_uri(str)
+  end
 end
 
 module ATProto

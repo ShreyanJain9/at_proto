@@ -78,6 +78,9 @@ module ATProto
         cursor: T.nilable(
           String
         ),
+        count: T.nilable(
+          Integer
+        ),
         map_block: T.nilable(Proc),
       )
         .returns(T
@@ -86,7 +89,7 @@ module ATProto
           ))
     }
 
-    def get_paginated_data(session, method, key:, params:, cursor: nil, &map_block)
+    def get_paginated_data(session, method, key:, params:, cursor: nil, count: nil, &map_block)
       params.merge({ limit: 100, cursor: cursor }).then do |send_data|
         session.xrpc.get.public_send(method, **send_data).then do |response|
           response.dig(key).then do |data|
@@ -94,31 +97,47 @@ module ATProto
               return []
             end
 
-            if block_given?
-              data.map(&map_block).then do |results|
-                response.dig("cursor").then do |next_cursor|
-                  if next_cursor.nil?
-                    return results
-                  else
-                    get_paginated_data(session, method, key: key, params: params, cursor: next_cursor, &map_block).then do |next_results|
-                      return results + next_results
-                    end
-                  end
-                end
+            results = if block_given?
+                data.map(&map_block)
+              else
+                data
               end
-            else
-              response.dig("cursor").then do |next_cursor|
-                if next_cursor.nil?
-                  return data
-                else
-                  get_paginated_data(session, method, key: key, params: params, cursor: next_cursor, &map_block).then do |next_results|
-                    return data + next_results
-                  end
+
+            response.dig("cursor").then do |next_cursor|
+              if next_cursor.nil? || (count && results.length >= count)
+                return results[0..count]
+              else
+                remaining_count = count ? count - results.length : nil
+                get_paginated_data(session, method, key: key, params: params, cursor: next_cursor, count: remaining_count, &map_block).then do |next_results|
+                  return (results + next_results)
                 end
               end
             end
           end
         end
+      end
+    end
+  end
+end
+
+module ATProto
+  module RequestUtils
+    class XRPCResponseCode < T::Enum
+      enums do
+        Unknown = new(1)
+        InvalidResponse = new(2)
+        Success = new(200)
+        InvalidRequest = new(400)
+        AuthRequired = new(401)
+        Forbidden = new(403)
+        XRPCNotSupported = new(404)
+        PayloadTooLarge = new(413)
+        RateLimitExceeded = new(429)
+        InternalServerError = new(500)
+        MethodNotImplemented = new(501)
+        UpstreamFailure = new(502)
+        NotEnoughResouces = new(503)
+        UpstreamTimeout = new(504)
       end
     end
   end
