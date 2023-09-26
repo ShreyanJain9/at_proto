@@ -66,6 +66,10 @@ module ATProto
         raise UnauthorizedError
       end
     end
+
+    def inspect
+      "#<ATProto::Session(did: #{did}, access_token: #{access_token})>"
+    end
   end
 end
 
