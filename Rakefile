@@ -24,3 +24,10 @@ require "rake/extensiontask"
 Rake::ExtensionTask.new "at_protocol/tid" do |ext|
   ext.lib_dir = "lib/at_protocol"
 end
+
+require "rspec/core/rake_task"
+
+RSpec::Core::RakeTask.new(:spec) do |t|
+  t.pattern = Dir.glob("spec/**/*_spec.rb")
+  t.rspec_opts = "--format documentation"
+end
