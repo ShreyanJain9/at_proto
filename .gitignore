@@ -13,3 +13,8 @@ node_modules/
 lib/bskytest.rb
 .byebug_history
 *.gem
+*.bundle
+*.so
+*.o
+
+Makefile

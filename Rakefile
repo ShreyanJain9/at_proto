@@ -18,3 +18,9 @@ Rake::TestTask.new(:test) do |t|
     t.pattern = "test/**/*_test.rb"
   end
 end
+
+require "rake/extensiontask"
+
+Rake::ExtensionTask.new "at_protocol/tid" do |ext|
+  ext.lib_dir = "lib/at_protocol"
+end

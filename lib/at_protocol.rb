@@ -30,6 +30,6 @@ end
 require "skyfall/cid"
 require "xrpc"
 
-%w(requests session repo collection at_uri writes record record/strongref).each do |name|
+%w(requests session repo collection at_uri writes record record/strongref tid_ext).each do |name|
   require "at_protocol/#{name}"
 end

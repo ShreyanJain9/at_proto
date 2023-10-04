@@ -2,7 +2,7 @@ lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "at_protocol/version"
 
-specfiles = Dir["./lib/**/*.rb"]
+specfiles = Dir["./lib/**/*.rb"] + Dir["./ext/**/*"]
 
 Gem::Specification.new do |spec|
   spec.name = "at_protocol"
@@ -14,6 +14,8 @@ Gem::Specification.new do |spec|
   spec.homepage = "https://github.com/ShreyanJain9/at_protocol"
   spec.license = "MIT"
   spec.files = specfiles
-  spec.require_paths = ["lib"]
+  spec.extensions = %w[ext/at_protocol/extconf.rb]
+  spec.require_paths = %w(lib ext)
   spec.add_runtime_dependency "xrpc", ">= 0.1.5"
+  spec.add_development_dependency "rake-compiler"
 end
