@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <math.h>
-#include "extconf.h"
 
 static VALUE atproto_module;
 static VALUE tid_class;
@@ -21,7 +20,8 @@ static VALUE tid_alloc(VALUE klass) {
 
 static VALUE tid_initialize(int argc, VALUE *argv, VALUE self) {
   VALUE time_arg = Qnil;
-  rb_scan_args(argc, argv, "01", &time_arg);
+  VALUE clock_identifier_arg = Qnil;
+  rb_scan_args(argc, argv, "02", &time_arg, &clock_identifier_arg);
 
   TID *tid;
   Data_Get_Struct(self, TID, tid);
@@ -42,7 +42,16 @@ static VALUE tid_initialize(int argc, VALUE *argv, VALUE self) {
     tid->timestamp = (uint64_t)tv.tv_sec * 1000000 + (uint64_t)tv.tv_usec;
   }
 
-  tid->clock_identifier = rand() & 0x3FF;
+  if (NIL_P(clock_identifier_arg)) {
+    tid->clock_identifier = rand() & 0x3FF;
+  } else {
+    if (FIXNUM_P(clock_identifier_arg)) {
+      tid->clock_identifier = NUM2LL(clock_identifier_arg) & 0x3FF;
+    } else {
+      rb_raise(rb_eTypeError, "Clock identifier must be a Fixnum or nil");
+      return Qnil;
+    }
+  }
 
   return self;
 }
@@ -66,11 +75,18 @@ static VALUE tid_to_s(VALUE self) {
     int index = (int)((tid->timestamp >> (50 - i * 5)) & 0x1F);
     tid_str[i] = b32_chars[index];
   }
-  tid_str[11] = b32_chars[(int)(tid->clock_identifier >> 6) & 0x1F];
+  tid_str[11] = b32_chars[(int)(tid->clock_identifier >> 5) & 0x1F]; // Update encoding
   tid_str[12] = b32_chars[(int)tid->clock_identifier & 0x1F];
   tid_str[13] = '\0';
 
   return rb_str_new_cstr(tid_str);
+}
+
+static VALUE tid_get_clock_identifier(VALUE self) {
+  TID *tid;
+  Data_Get_Struct(self, TID, tid);
+
+  return LL2NUM(tid->clock_identifier);
 }
 
 static VALUE tid_from_string(VALUE klass, VALUE str) {
@@ -88,8 +104,9 @@ static VALUE tid_from_string(VALUE klass, VALUE str) {
   strncpy(tid_str, StringValueCStr(str), sizeof(tid_str));
   tid_str[13] = '\0';
 
-  // Convert the TID string back to a TID object
+  // Extract timestamp and clock identifier
   uint64_t timestamp = 0;
+  uint64_t clock_identifier = 0;
   for (int i = 0; i < 11; i++) {
     char c = tid_str[i];
     const char *pos = strchr(b32_chars, c);
@@ -101,7 +118,6 @@ static VALUE tid_from_string(VALUE klass, VALUE str) {
     timestamp = (timestamp << 5) | (index & 0x1F);
   }
 
-  uint64_t clock_identifier = 0;
   for (int i = 11; i < 13; i++) {
     char c = tid_str[i];
     const char *pos = strchr(b32_chars, c);
@@ -118,7 +134,6 @@ static VALUE tid_from_string(VALUE klass, VALUE str) {
 
   return tid_obj;
 }
-
 void Init_tid(void) {
   atproto_module = rb_define_module("ATProto");
 
@@ -127,5 +142,6 @@ void Init_tid(void) {
   rb_define_method(tid_class, "initialize", tid_initialize, -1);
   rb_define_method(tid_class, "to_time", tid_to_time, 0);
   rb_define_method(tid_class, "to_s", tid_to_s, 0);
+  rb_define_method(tid_class, "clock_id", tid_get_clock_identifier, 0);
   rb_define_singleton_method(tid_class, "from_string", tid_from_string, 1);
 }
