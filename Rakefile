@@ -6,24 +6,18 @@ require "rake/testtask"
 desc "Default: run tests."
 task default: :test
 
-desc "Run bskyrb tests."
-Rake::TestTask.new(:test) do |t|
-  t.libs << "test"
-  t.verbose = false
-  t.warning = false
-
-  if ARGV.length > 1
-    t.test_files = ARGV[1..]
-  else
-    t.pattern = "test/**/*_test.rb"
-  end
-end
-
 require "rake/extensiontask"
 
-Rake::ExtensionTask.new "at_protocol/tid" do |ext|
+gemspec = Gem::Specification.load("at_protocol.gemspec")
+Rake::ExtensionTask.new do |ext|
+  ext.name = "at_protocol/tid"
+  ext.source_pattern = "*.{c,h}"
+  ext.ext_dir = "ext/at_protocol"
   ext.lib_dir = "lib/at_protocol"
+  ext.gem_spec = gemspec
 end
+
+task :default => [:compile, :spec]
 
 require "rspec/core/rake_task"
 

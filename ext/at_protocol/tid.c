@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <math.h>
+#include "extconf.h"
 
 static VALUE atproto_module;
 static VALUE tid_class;

@@ -30,16 +30,17 @@ module ATProto
         }.compact
       end
 
-      ## If you want to use with individual actions instead of applyWrites:
-      def endpoint_name
+      # If you want to use with individual actions instead of applyWrites:
+      def endpoint_name(real_xrpc = false)
         case self.action
         when Action::Create
-          "com_atproto_repo_createRecord"
+          "com.atproto.repo.createRecord"
         when Action::Update
-          "com_atproto_repo_putRecord"
+          "com.atproto.repo.putRecord"
         when Action::Delete
-          "com_atproto_repo_deleteRecord"
+          "com.atproto.repo.deleteRecord"
         end
+          .gsub(".", "_") unless real_xrpc
       end
 
       def to_individual_hash(session)
@@ -121,17 +122,18 @@ module ATProto
 
       sig { params(hash: Hash).returns(T::Array[Write]) }
 
-      def create(hash)
-        @writes << Write.new({
-          action: Write::Action::Create,
-          value: hash,
-          collection: hash["$type"] || hash[:"$type"],
-        })
+      def create(lexicon:, rkey:, **hash)
+        @writes << Write.new(**({
+                               action: Write::Action::Create,
+                               value: hash,
+                               collection: lexicon || hash["$type"] || hash[:"$type"],
+                               rkey: rkey.to_s, # rkey is optional but should be a TID
+                             }.compact))
       end
 
       sig { params(uri: T.any(String, ATProto::AtUri), hash: Hash).returns(T::Array[Write]) }
 
-      def update(uri, hash)
+      def update(uri, **hash)
         aturi = at_uri(uri)
         @writes << Write.new({
           action: Write::Action::Update,
