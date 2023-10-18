@@ -19,3 +19,8 @@ gem "skyfall", "~> 0.2.0"
 gem "rspec", "~> 3.12"
 
 gem "steep", "~> 1.5"
+
+gem "yard-sorbet", "~> 0.8.1"
+
+gem 'yard-link_stdlib', '~> 0.1.7'
+

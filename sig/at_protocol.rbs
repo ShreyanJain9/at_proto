@@ -1,3 +1,0 @@
-class Class
-  def dynamic_attr_reader: (untyped attr_name) { () -> untyped } -> untyped
-end

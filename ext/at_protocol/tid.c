@@ -18,6 +18,9 @@ static VALUE tid_alloc(VALUE klass) {
   return Data_Wrap_Struct(klass, 0, xfree, tid);
 }
 
+// Returns a new TID
+// @param [Time] time_arg The time to use for the timestamp
+// @param [Fixnum] clock_identifier_arg The clock identifier to use
 static VALUE tid_initialize(int argc, VALUE *argv, VALUE self) {
   VALUE time_arg = Qnil;
   VALUE clock_identifier_arg = Qnil;

@@ -86,7 +86,6 @@ module ATProto
 
     extend T::Sig
     prop(:writes, T::Array[Write])
-    prop(:repo, ATProto::Repo)
     prop(:session, ATProto::Session)
 
     sig { returns(Hash) }
@@ -94,7 +93,7 @@ module ATProto
     def to_h
       {
         writes: self.writes.map(&:to_h).compact,
-        repo: self.repo.to_s,
+        repo: self.session.did,
       }.compact
     end
 
@@ -108,10 +107,14 @@ module ATProto
   end
 
   def self.Writes(session, &block)
-    Writes.new(writes: Writes::Collector.new.instance_eval(&block), session: session, repo: Repo.new(session.did))
+    Writes.new(writes: Writes::Collector.new.instance_eval(&block), session: session)
   end
 
   class Writes
+    def inspect
+      "#<ATProto::Writes(writes: #{writes.inspect}, session: #{session.did})>"
+    end
+
     class Collector
       include RequestUtils
       extend T::Sig
@@ -120,14 +123,14 @@ module ATProto
         @writes = []
       end
 
-      sig { params(hash: Hash).returns(T::Array[Write]) }
+      sig { params(rkey: T.any(String, ATProto::TID), hash: T.untyped).returns(T::Array[Write]) }
 
-      def create(lexicon:, rkey:, **hash)
+      def create(rkey: TID.new.to_s, **hash)
         @writes << Write.new(**({
                                action: Write::Action::Create,
                                value: hash,
-                               collection: lexicon || hash["$type"] || hash[:"$type"],
-                               rkey: rkey.to_s, # rkey is optional but should be a TID
+                               collection: hash["$type"] || hash[:"$type"],
+                               rkey: rkey&.to_s, # rkey is optional but should be a TID
                              }.compact))
       end
 
@@ -135,23 +138,23 @@ module ATProto
 
       def update(uri, **hash)
         aturi = at_uri(uri)
-        @writes << Write.new({
+        @writes << Write.new(
           action: Write::Action::Update,
           value: hash,
-          collection: T.must(aturi).collection.to_s,
-          rkey: T.must(aturi).rkey,
-        })
+          collection: T.must(aturi)&.collection&.to_s,
+          rkey: T.must(aturi)&.rkey,
+        )
       end
 
       sig { params(uri: T.any(String, ATProto::AtUri)).returns(T::Array[Write]) }
 
       def delete(uri)
         aturi = at_uri(uri)
-        @writes << Write.new({
+        @writes << Write.new(
           action: Write::Action::Delete,
           collection: T.must(aturi).collection.to_s,
           rkey: T.must(aturi).rkey,
-        })
+        )
       end
     end
   end

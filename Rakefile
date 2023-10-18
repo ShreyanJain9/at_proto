@@ -25,3 +25,12 @@ RSpec::Core::RakeTask.new(:spec) do |t|
   t.pattern = Dir.glob("spec/**/*_spec.rb")
   t.rspec_opts = "--format documentation"
 end
+
+require "yard"
+require "yard-sorbet"
+require "yard-link_stdlib"
+
+YARD::Rake::YardocTask.new do |doc|
+  doc.files = ["lib/**/*.rb", "ext/**/*.c", "spec/**/*_spec.rb"]
+  doc.options = ["--title", "AT Protocol for Ruby", "--output_dir", "docs"]
+end
