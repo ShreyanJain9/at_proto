@@ -44,8 +44,8 @@ module ATProto
           repo: session.did,
           collection: content_hash["$type"],
           record: content_hash,
-        }
-        params[:rkey] = rkey unless rkey.nil?
+          rkey:,
+        }.compact
         from_uri(at_uri(session.xrpc.post.com_atproto_repo_createRecord(**params)["uri"]))
       end
     end
