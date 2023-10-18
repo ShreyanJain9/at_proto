@@ -79,7 +79,7 @@ module ATProto
 
     sig { params(token: String, pds: String).void }
 
-    def initialize(token, pds = "https://bsky.social")
+    def initialize(token, pds)
       @token = token
       @pds = pds
       open!

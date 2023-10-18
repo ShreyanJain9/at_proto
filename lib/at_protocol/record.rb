@@ -28,7 +28,7 @@ module ATProto
 
       sig { params(uri: ATProto::AtUri, pds: String).returns(T.nilable(ATProto::Record)) }
 
-      def from_uri(uri, pds = "https://bsky.social")
+      def from_uri(uri, pds)
         from_hash(XRPC::Client.new(pds).get.com_atproto_repo_getRecord(
           repo: uri.repo.to_s,
           collection: "#{uri.collection}",
@@ -52,7 +52,7 @@ module ATProto
     dynamic_attr_reader(:to_uri) { "at://#{self.uri.repo}/#{self.uri.collection}/#{self.uri.rkey}" }
     dynamic_attr_reader(:strongref) { StrongRef.new(uri: self.uri, cid: self.cid) }
 
-    def refresh(pds = "https://bsky.social")
+    def refresh(pds)
       self.class.from_uri(self.uri, pds)
     end
 

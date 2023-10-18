@@ -9,7 +9,7 @@ module ATProto
   module RequestUtils # Goal is to replace with pure XRPC eventually
     extend T::Sig
 
-    def resolve_handle(username, pds = "https://bsky.social")
+    def resolve_handle(username, pds)
       (XRPC::Client.new(pds).get.com_atproto_identity_resolveHandle(handle: username))["did"]
     end
 
