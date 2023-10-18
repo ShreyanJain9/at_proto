@@ -10,8 +10,7 @@ class ATProto::Repo
   # @param pds [String] The URL of the personal data server (default: "https://bsky.social").
   # @param open [Boolean] Whether to open the repository or not (default: true).
   # @param authenticate [NilClass, Object] Additional authentication data (default: nil).
-
-  def initialize(username, pds = "https://bsky.social", open: true, authenticate: nil)
+  def initialize(username, pds, open: true, authenticate: nil)
     @pds = T.let pds, String
     @xrpc = T.let(XRPC::Client.new(pds), XRPC::Client)
     if username.start_with?("did:")
