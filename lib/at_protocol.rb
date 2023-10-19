@@ -18,8 +18,8 @@ end
 module ATProto
   class << self
     def method_missing(method_name, *args, &block)
-      if const_defined?(method_name)
-        Object.const_get(method_name).new(*args, &block)
+      if const_defined?("ATProto::#{method_name}")
+        Object.const_get("ATProto::#{method_name}").new(*args, &block)
       else
         super
       end
