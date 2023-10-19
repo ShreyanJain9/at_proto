@@ -85,6 +85,11 @@
 
   
   
+  <dl>
+      <dt>Extended by:</dt>
+      <dd>T::Sig</dd>
+  </dl>
+  
   
   
   <dl>
@@ -139,6 +144,30 @@
 
   
     <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#str%3F-class_method" title="str? (class method)">.<strong>str?</strong>(s = nil)  &#x21d2; Boolean, Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>For use in case statements, so you can see if a string is a valid TID.</p>
+</div></span>
   
 </li>
 
@@ -312,6 +341,7 @@
   
 
 
+  
   <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
   
@@ -563,6 +593,70 @@ static VALUE tid_from_string(VALUE klass, VALUE str) {
 </table>
 </div>
     
+      <div class="method_details ">
+  <h3 class="signature " id="str?-class_method">
+  
+    .<strong>str?</strong>(s = nil)  &#x21d2; <tt>Boolean</tt>, <tt><a href="https://docs.ruby-lang.org/en/2.3.0/Object.html">Object</a></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>For use in case statements, so you can see if a string is a valid TID</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>, <tt><a href="https://docs.ruby-lang.org/en/2.3.0/Object.html">Object</a></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+47
+48
+49
+50
+51
+52
+53
+54</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/at_protocol/tid_ext.rb', line 47</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_str?'>str?</span><span class='lparen'>(</span><span class='id identifier rubyid_s'>s</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='kw'>true</span> <span class='kw'>if</span> <span class='id identifier rubyid_s'>s</span><span class='op'>&amp;.</span><span class='id identifier rubyid_to_tid'>to_tid</span><span class='op'>&amp;.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>==</span> <span class='id identifier rubyid_s'>s</span>
+  <span class='id identifier rubyid_o'>o</span> <span class='op'>=</span> <span class='const'>Object</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_o'>o</span><span class='period'>.</span><span class='op'>===</span><span class='lparen'>(</span><span class='id identifier rubyid_str'>str</span><span class='rparen'>)</span>
+    <span class='const'><span class='object_link'><a href="../ATProto.html" title="ATProto (module)">ATProto</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="ATProto::TID (class)">TID</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_string'><span class='object_link'><a href="#from_string-class_method" title="ATProto::TID.from_string (method)">from_string</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_str'>str</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>==</span> <span class='id identifier rubyid_str'>str</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_o'>o</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
   </div>
 
   <div id="instance_method_details" class="method_details_list">
@@ -621,12 +715,12 @@ static VALUE tid_from_string(VALUE klass, VALUE str) {
       <pre class="lines">
 
 
-32
 33
-34</pre>
+34
+35</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/at_protocol/tid_ext.rb', line 32</span>
+      <pre class="code"><span class="info file"># File 'lib/at_protocol/tid_ext.rb', line 33</span>
 
 <span class='kw'>def</span> <span class='op'>&lt;=&gt;</span><span class='lparen'>(</span><span class='id identifier rubyid_other'>other</span><span class='rparen'>)</span>
   <span class='lbracket'>[</span><span class='id identifier rubyid_to_time'>to_time</span><span class='comma'>,</span> <span class='id identifier rubyid_clock_id'>clock_id</span><span class='rbracket'>]</span> <span class='op'>&lt;=&gt;</span> <span class='lbracket'>[</span><span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_to_time'>to_time</span><span class='comma'>,</span> <span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_clock_id'>clock_id</span><span class='rbracket'>]</span>
@@ -709,12 +803,12 @@ static VALUE tid_get_clock_identifier(VALUE self) {
       <pre class="lines">
 
 
-24
 25
-26</pre>
+26
+27</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/at_protocol/tid_ext.rb', line 24</span>
+      <pre class="code"><span class="info file"># File 'lib/at_protocol/tid_ext.rb', line 25</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_inspect'>inspect</span>
   <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>#&lt;ATProto::TID(</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='embexpr_end'>}</span><span class='tstring_content'>)&gt;</span><span class='tstring_end'>&quot;</span></span>
@@ -761,12 +855,12 @@ static VALUE tid_get_clock_identifier(VALUE self) {
       <pre class="lines">
 
 
-38
 39
-40</pre>
+40
+41</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/at_protocol/tid_ext.rb', line 38</span>
+      <pre class="code"><span class="info file"># File 'lib/at_protocol/tid_ext.rb', line 39</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_succ'>succ</span>
   <span class='const'><span class='object_link'><a href="../ATProto.html" title="ATProto (module)">ATProto</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="ATProto::TID (class)">TID</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="ATProto::TID#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_to_time'>to_time</span> <span class='op'>+</span> <span class='int'>1</span><span class='rparen'>)</span>
@@ -877,7 +971,7 @@ static VALUE tid_to_time(VALUE self) {
 </div>
 
       <div id="footer">
-  Generated on Fri Oct 13 16:54:24 2023 by
+  Generated on Wed Oct 18 20:25:23 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.2.2).
 </div>

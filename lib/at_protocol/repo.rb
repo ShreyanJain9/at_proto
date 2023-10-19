@@ -3,6 +3,8 @@
 class ATProto::Repo
   include ATProto::RequestUtils
   extend T::Sig
+  attr_reader :did, :record_list, :pds, :xrpc
+  alias_method :to_s, :did
 
   sig { params(username: String, pds: String, open: T::Boolean, authenticate: T.nilable(ATProto::Session)).void }
 
@@ -24,43 +26,23 @@ class ATProto::Repo
     end
   end
 
-  def open!
-    @collections = describe_repo["collections"]
-  end
+  def open!; @collections = describe["collections"]; end
 
   sig { returns(String) }
 
-  def to_uri
-    "at://#{@did}/"
-  end
-
-  sig { returns(String) }
-
-  def to_s
-    @did
-  end
+  def to_uri = "at://#{did}/"
 
   sig { returns(Hash) }
 
-  def describe_repo
-    @xrpc.get.com_atproto_repo_describeRepo(repo: @did)
-  end
+  def describe = @xrpc.get.com_atproto_repo_describeRepo(repo: @did)
 
   sig { returns(Hash) }
 
-  def did_document
-    describe_repo()["didDoc"]
-  end
+  def did_doc = describe["didDoc"]
 
   sig { params(collection: String).returns(ATProto::Repo::Collection) }
 
-  def [](collection)
-    Collection.new(repo: self, collection: collection)
-  end
+  def [](collection) = Collection.new(repo: self, collection: collection)
 
-  def inspect
-    "Repo(#{@did})"
-  end
-
-  attr_reader :did, :record_list, :pds, :xrpc
+  def inspect = "Repo(#{@did})"
 end

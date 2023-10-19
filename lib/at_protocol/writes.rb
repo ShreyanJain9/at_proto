@@ -4,6 +4,11 @@ module ATProto
 
   class Writes < T::Struct
     class Write < T::Struct
+      # There are three different repo options that you can perform in a commit:
+      # - Create
+      # - Update
+      # - Delete
+      # This enum provides a strongly-typed way to describe them.
       class Action < T::Enum
         enums do
           Create = new(:create)
@@ -22,7 +27,7 @@ module ATProto
 
       def to_h
         {
-          :"$type" => "com.atproto.repo.applyWrites##{self.action.serialize}",
+          "$type": "com.atproto.repo.applyWrites##{self.action.serialize}",
           action: self.action.serialize,
           value: self.value || nil,
           collection: self.collection,
@@ -31,6 +36,8 @@ module ATProto
       end
 
       # If you want to use with individual actions instead of applyWrites:
+      #
+      # This method returns the name of the endpoint you use to perform the repo operation.
       def endpoint_name(real_xrpc = false)
         case self.action
         when Action::Create
@@ -43,21 +50,17 @@ module ATProto
           .gsub(".", "_") unless real_xrpc
       end
 
+      # If you want to use with individual actions instead of applyWrites:
+      #
+      # This method returns the POST request body you use to perform the repo operation.
       def to_individual_hash(session)
         case self.action
-        when Action::Create
+        when Action::Create, Action::Update
           {
             repo: session.did,
             collection: self.collection.to_s,
             record: self.value,
-            rkey: self.rkey || nil,
-          }.compact
-        when Action::Update
-          {
-            repo: session.did,
-            collection: self.collection.to_s,
-            rkey: self.rkey,
-            record: self.value,
+            rkey: rkey,
           }.compact
         when Action::Delete
           {
@@ -68,16 +71,22 @@ module ATProto
         end
       end
 
+      sig { returns(T.proc.params(session: ATProto::Session).returns(T.any(T.nilable(Integer), ATProto::Record::StrongRef))) }
+      # This turns a Write into a proc that can be used to perform the repo operation, when passed a session argument.
+
       def to_proc
         ->session {
           session.xrpc.post.send(self.endpoint_name, **self.to_individual_hash(session)).then do |response|
-            if response.is_a?(Numeric)
+            case response
+            when Integer
               response
-            elsif response.is_a?(Hash)
+            when Hash
               ATProto::Record::StrongRef.new(
-                uri: RequestUtils.at_uri(response["uri"]),
+                uri: AtUri(response["uri"]),
                 cid: Skyfall::CID.from_json(response["cid"]),
               )
+            else
+              raise ATProto::Error, "Something went wrong: #{response}"
             end
           end
         }
@@ -107,7 +116,7 @@ module ATProto
   end
 
   def self.Writes(session, &block)
-    Writes.new(writes: Writes::Collector.new.instance_eval(&block), session: session)
+    Writes.new(writes: Writes::Collector.new.instance_eval(&block).instance_eval { @writes }, session: session)
   end
 
   class Writes
@@ -126,12 +135,14 @@ module ATProto
       sig { params(rkey: T.any(String, ATProto::TID), hash: T.untyped).returns(T::Array[Write]) }
 
       def create(rkey: TID.new.to_s, **hash)
-        @writes << Write.new(**({
-                               action: Write::Action::Create,
-                               value: hash,
-                               collection: hash["$type"] || hash[:"$type"],
-                               rkey: rkey&.to_s, # rkey is optional but should be a TID
-                             }.compact))
+        @writes << Write.new(
+          **({
+            action: Write::Action::Create,
+            value: hash,
+            collection: hash["$type"] || hash[:"$type"],
+            rkey: rkey&.to_s, # rkey is optional but should be a TID
+          }.compact),
+        )
       end
 
       sig { params(uri: T.any(String, ATProto::AtUri), hash: Hash).returns(T::Array[Write]) }

@@ -39,34 +39,28 @@ module ATProto
       sig { params(content_hash: Hash, session: ATProto::Session, rkey: T.nilable(String)).returns(T.nilable(ATProto::Record)) }
 
       def create(content_hash, session, rkey = nil)
-        return nil if content_hash["$type"].nil?
-        params = {
-          repo: session.did,
-          collection: content_hash["$type"],
-          record: content_hash,
-          rkey:,
-        }.compact
-        from_uri(at_uri(session.xrpc.post.com_atproto_repo_createRecord(**params)["uri"]))
+        session.then(&(ATProto::Writes::Writes.new(
+          value: content_hash,
+          collection: content_hash["$type"] || content_hash[:"$type"],
+          action: Writes::Write::Action::Create,
+          rkey: (rkey unless rkey.nil?),
+        ))).uri.resolve(pds: session.pds)
       end
     end
-    dynamic_attr_reader(:to_uri) { "at://#{self.uri.repo}/#{self.uri.collection}/#{self.uri.rkey}" }
+
+    def to_uri = "at://#{self.uri.repo}/#{self.uri.collection}/#{self.uri.rkey}"
+
     dynamic_attr_reader(:strongref) { StrongRef.new(uri: self.uri, cid: self.cid) }
 
-    def refresh(pds)
-      self.class.from_uri(self.uri, pds)
-    end
+    def refresh(pds) = self.class.from_uri(self.uri, pds)
 
     sig { params(session: ATProto::Session).returns(T.nilable(ATProto::Record)) }
 
-    def put(session)
-      session.then(&to_write(:update)).uri.resolve(pds: session.pds)
-    end
+    def put(session) = session.then(&to_write(:update)).uri.resolve(pds: session.pds)
 
     sig { params(session: ATProto::Session).returns(T.nilable(Integer)) }
 
-    def delete(session)
-      session.then(&to_write)
-    end
+    def delete(session) = session.then &to_write(:delete)
 
     sig { params(type: Symbol).returns(ATProto::Writes::Write) }
 

@@ -240,16 +240,12 @@
       <pre class="lines">
 
 
-17
-18
-19</pre>
+15</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/at_protocol/at_uri.rb', line 17</span>
+      <pre class="code"><span class="info file"># File 'lib/at_protocol/at_uri.rb', line 15</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='const'>AtUri</span><span class='lparen'>(</span><span class='id identifier rubyid_str'>str</span><span class='rparen'>)</span>
-  <span class='const'><span class='object_link'><a href="ATProto/RequestUtils.html" title="ATProto::RequestUtils (module)">RequestUtils</a></span></span><span class='period'>.</span><span class='id identifier rubyid_at_uri'><span class='object_link'><a href="ATProto/RequestUtils.html#at_uri-class_method" title="ATProto::RequestUtils.at_uri (method)">at_uri</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_str'>str</span><span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='const'>AtUri</span><span class='lparen'>(</span><span class='id identifier rubyid_str'>str</span><span class='rparen'>)</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="ATProto/RequestUtils.html" title="ATProto::RequestUtils (module)">RequestUtils</a></span></span><span class='period'>.</span><span class='id identifier rubyid_at_uri'><span class='object_link'><a href="ATProto/RequestUtils.html#at_uri-class_method" title="ATProto::RequestUtils.at_uri (method)">at_uri</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_str'>str</span><span class='rparen'>)</span></pre>
     </td>
   </tr>
 </table>
@@ -308,15 +304,15 @@
       <pre class="lines">
 
 
-109
-110
-111</pre>
+118
+119
+120</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/at_protocol/writes.rb', line 109</span>
+      <pre class="code"><span class="info file"># File 'lib/at_protocol/writes.rb', line 118</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='const'>Writes</span><span class='lparen'>(</span><span class='id identifier rubyid_session'>session</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
-  <span class='const'><span class='object_link'><a href="ATProto/Writes.html" title="ATProto::Writes (class)">Writes</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="ATProto/Writes.html#initialize-instance_method" title="ATProto::Writes#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>writes:</span> <span class='const'><span class='object_link'><a href="ATProto/Writes.html" title="ATProto::Writes (class)">Writes</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ATProto/Writes/Collector.html" title="ATProto::Writes::Collector (class)">Collector</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="ATProto/Writes/Collector.html#initialize-instance_method" title="ATProto::Writes::Collector#initialize (method)">new</a></span></span><span class='period'>.</span><span class='id identifier rubyid_instance_eval'>instance_eval</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>session:</span> <span class='id identifier rubyid_session'>session</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="ATProto/Writes.html" title="ATProto::Writes (class)">Writes</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="ATProto/Writes.html#initialize-instance_method" title="ATProto::Writes#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>writes:</span> <span class='const'><span class='object_link'><a href="ATProto/Writes.html" title="ATProto::Writes (class)">Writes</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ATProto/Writes/Collector.html" title="ATProto::Writes::Collector (class)">Collector</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="ATProto/Writes/Collector.html#initialize-instance_method" title="ATProto::Writes::Collector#initialize (method)">new</a></span></span><span class='period'>.</span><span class='id identifier rubyid_instance_eval'>instance_eval</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_instance_eval'>instance_eval</span> <span class='lbrace'>{</span> <span class='ivar'>@writes</span> <span class='rbrace'>}</span><span class='comma'>,</span> <span class='label'>session:</span> <span class='id identifier rubyid_session'>session</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -328,7 +324,7 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Oct 13 16:54:23 2023 by
+  Generated on Wed Oct 18 20:25:21 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.2.2).
 </div>

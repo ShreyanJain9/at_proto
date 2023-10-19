@@ -49,12 +49,6 @@ module ATProto
       @refresher = XRPC::Client.new(@pds, @refresh_token)
     end
 
-    sig { returns(T.nilable(Hash)) }
-
-    def get_session
-      @xrpc.get.com_atproto_server_getSession
-    end
-
     def delete!
       response = HTTParty.post(
         URI(delete_session_uri(pds)),
@@ -67,9 +61,9 @@ module ATProto
       end
     end
 
-    def inspect
-      "#<ATProto::Session(did: #{did}, access_token: #{access_token})>"
-    end
+    sig { returns(String) }
+
+    def inspect = "#<ATProto::Session(did: #{did}, access_token: #{access_token})>"
   end
 end
 
@@ -85,8 +79,6 @@ module ATProto
       open!
     end
 
-    def open!
-      @xrpc = XRPC::Client.new(@pds, @token)
-    end
+    def open!; @xrpc = XRPC::Client.new(@pds, @token); end
   end
 end

@@ -12,23 +12,21 @@ module ATProto
       sig { params(count: T.nilable(Integer)).returns(T::Array[ATProto::Record]) }
 
       def list(count = nil)
-        T.must(get_paginated_data(self.repo, :com_atproto_repo_listRecords.to_s, key: "records", params: { repo: self.repo.to_s, collection: self.to_s }, count: count, cursor: nil) do |record|
+        (get_paginated_data_lazy(
+          self.repo,
+          :com_atproto_repo_listRecords.to_s,
+          key: "records",
+          params: { repo: self.repo.to_s, collection: collection },
+        ) do |record|
           ATProto::Record.from_hash(record)
-        end)
+        end).first(count)
       end
 
       sig { returns(String) }
 
-      def to_uri
-        "at://#{self.repo.did}/#{self.collection}/"
-      end
+      def to_uri = "at://#{self.repo.did}/#{self.collection}/"
 
-      sig { returns(String) }
-
-      def to_s
-        @collection
-      end
-
+      alias_method :to_s, :to_uri
       sig { params(rkey: String).returns(T.nilable(ATProto::Record)) }
 
       def [](rkey)
@@ -43,7 +41,11 @@ module ATProto
       end
 
       def each(&block)
-        list_all.each(&block)
+        if block_given?
+          list_all.each(&block)
+        else
+          list_all
+        end
       end
     end
   end

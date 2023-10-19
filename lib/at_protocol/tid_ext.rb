@@ -19,6 +19,7 @@ class String
 end
 
 class ATProto::TID
+  extend T::Sig
   sig { returns(String) }
 
   def inspect
@@ -40,13 +41,14 @@ class ATProto::TID
   end
 end
 
-
 class << ATProto::TID
   # For use in case statements, so you can see if a string is a valid TID
-  def str?
+  # @return [Boolean, Object]
+  def str?(s = nil)
+    return true if s&.to_tid&.to_s == s
     o = Object.new
     def o.===(str)
-        ATProto::TID.from_string(str).to_s == str
+      ATProto::TID.from_string(str).to_s == str
     end
     o
   end

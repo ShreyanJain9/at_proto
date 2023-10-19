@@ -139,7 +139,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#at_uri-class_method" title="at_uri (class method)">.<strong>at_uri</strong>(url, atp_host = &quot;https://bsky.social&quot;)  &#x21d2; AtUri<sup>?</sup> </a>
+      <a href="#at_uri-class_method" title="at_uri (class method)">.<strong>at_uri</strong>(url, atp_host)  &#x21d2; AtUri<sup>?</sup> </a>
     
 
     
@@ -166,28 +166,6 @@
     </h2>
 
     <ul class="summary">
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#create_session_uri-instance_method" title="#create_session_uri (instance method)">#<strong>create_session_uri</strong>(pds)  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
-  
-</li>
-
       
         <li class="public ">
   <span class="summary_signature">
@@ -236,7 +214,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#delete_record_uri-instance_method" title="#delete_record_uri (instance method)">#<strong>delete_record_uri</strong>(pds)  &#x21d2; Object </a>
+      <a href="#get_paginated_data-instance_method" title="#get_paginated_data (instance method)">#<strong>get_paginated_data</strong>(session, method, key:, params:, cursor: nil, count:, &amp;map_block)  &#x21d2; Object </a>
     
 
     
@@ -258,7 +236,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#delete_session_uri-instance_method" title="#delete_session_uri (instance method)">#<strong>delete_session_uri</strong>(pds)  &#x21d2; Object </a>
+      <a href="#get_paginated_data_lazy-instance_method" title="#get_paginated_data_lazy (instance method)">#<strong>get_paginated_data_lazy</strong>(session, method, key:, params:, cursor: nil, &amp;map_block)  &#x21d2; Object </a>
     
 
     
@@ -272,95 +250,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#get_paginated_data-instance_method" title="#get_paginated_data (instance method)">#<strong>get_paginated_data</strong>(session, method, key:, params:, cursor: nil, count: nil, &amp;map_block)  &#x21d2; Array<sup>?</sup> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#get_post_thread_uri-instance_method" title="#get_post_thread_uri (instance method)">#<strong>get_post_thread_uri</strong>(pds, query)  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#get_session_uri-instance_method" title="#get_session_uri (instance method)">#<strong>get_session_uri</strong>(pds)  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#mute_actor_uri-instance_method" title="#mute_actor_uri (instance method)">#<strong>mute_actor_uri</strong>(pds)  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Generates a lazy enumerator for paginated data retrieval.</p>
+</div></span>
   
 </li>
 
@@ -369,28 +261,6 @@
   <span class="summary_signature">
     
       <a href="#query_obj_to_query_params-instance_method" title="#query_obj_to_query_params (instance method)">#<strong>query_obj_to_query_params</strong>(q)  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#refresh_session_uri-instance_method" title="#refresh_session_uri (instance method)">#<strong>refresh_session_uri</strong>(pds)  &#x21d2; Object </a>
     
 
     
@@ -434,29 +304,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#resolve_handle-instance_method" title="#resolve_handle (instance method)">#<strong>resolve_handle</strong>(username, pds = &quot;https://bsky.social&quot;)  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#upload_blob_uri-instance_method" title="#upload_blob_uri (instance method)">#<strong>upload_blob_uri</strong>(pds)  &#x21d2; Object </a>
+      <a href="#resolve_handle-instance_method" title="#resolve_handle (instance method)">#<strong>resolve_handle</strong>(username, pds)  &#x21d2; Object </a>
     
 
     
@@ -489,7 +337,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="at_uri-class_method">
   
-    .<strong>at_uri</strong>(url, atp_host = &quot;https://bsky.social&quot;)  &#x21d2; <tt><span class='object_link'><a href="AtUri.html" title="ATProto::AtUri (class)">AtUri</a></span></tt><sup>?</sup> 
+    .<strong>at_uri</strong>(url, atp_host)  &#x21d2; <tt><span class='object_link'><a href="AtUri.html" title="ATProto::AtUri (class)">AtUri</a></span></tt><sup>?</sup> 
   
 
   
@@ -524,8 +372,6 @@
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>&quot;https://bsky.social&quot;</tt>)</em>
-      
       
     </li>
   
@@ -551,16 +397,12 @@
       <pre class="lines">
 
 
-10
-11
-12</pre>
+10</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/at_protocol/at_uri.rb', line 10</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_at_uri'>at_uri</span><span class='lparen'>(</span><span class='id identifier rubyid_url'>url</span><span class='comma'>,</span> <span class='id identifier rubyid_atp_host'>atp_host</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>https://bsky.social</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-  <span class='const'><span class='object_link'><a href="AtUriParser.html" title="ATProto::AtUriParser (module)">AtUriParser</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse'><span class='object_link'><a href="AtUriParser.html#parse-class_method" title="ATProto::AtUriParser.parse (method)">parse</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_url'>url</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="AtUriParser.html" title="ATProto::AtUriParser (module)">AtUriParser</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="AtUriParser.html#RuleSets-constant" title="ATProto::AtUriParser::RuleSets (constant)">RuleSets</a></span></span><span class='comma'>,</span> <span class='label'>pds:</span> <span class='id identifier rubyid_atp_host'>atp_host</span><span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
+<span class='kw'>def</span> <span class='id identifier rubyid_at_uri'>at_uri</span><span class='lparen'>(</span><span class='id identifier rubyid_url'>url</span><span class='comma'>,</span> <span class='id identifier rubyid_atp_host'>atp_host</span><span class='rparen'>)</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="AtUriParser.html" title="ATProto::AtUriParser (module)">AtUriParser</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse'><span class='object_link'><a href="AtUriParser.html#parse-class_method" title="ATProto::AtUriParser.parse (method)">parse</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_url'>url</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="AtUriParser.html" title="ATProto::AtUriParser (module)">AtUriParser</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="AtUriParser.html#RuleSets-constant" title="ATProto::AtUriParser::RuleSets (constant)">RuleSets</a></span></span><span class='comma'>,</span> <span class='label'>pds:</span> <span class='id identifier rubyid_atp_host'>atp_host</span><span class='rparen'>)</span></pre>
     </td>
   </tr>
 </table>
@@ -573,37 +415,7 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="create_session_uri-instance_method">
-  
-    #<strong>create_session_uri</strong>(pds)  &#x21d2; <tt><a href="https://docs.ruby-lang.org/en/2.3.0/Object.html">Object</a></tt> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-28
-29
-30</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/at_protocol/requests.rb', line 28</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_create_session_uri'>create_session_uri</span><span class='lparen'>(</span><span class='id identifier rubyid_pds'>pds</span><span class='rparen'>)</span>
-  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_pds'>pds</span><span class='embexpr_end'>}</span><span class='tstring_content'>/xrpc/com.atproto.server.createSession</span><span class='tstring_end'>&quot;</span></span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="default_authenticated_headers-instance_method">
+  <h3 class="signature first" id="default_authenticated_headers-instance_method">
   
     #<strong>default_authenticated_headers</strong>(session)  &#x21d2; <tt><a href="https://docs.ruby-lang.org/en/2.3.0/Object.html">Object</a></tt> 
   
@@ -617,14 +429,14 @@
       <pre class="lines">
 
 
-60
-61
-62
-63
-64</pre>
+28
+29
+30
+31
+32</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/at_protocol/requests.rb', line 60</span>
+      <pre class="code"><span class="info file"># File 'lib/at_protocol/requests.rb', line 28</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_default_authenticated_headers'>default_authenticated_headers</span><span class='lparen'>(</span><span class='id identifier rubyid_session'>session</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_default_headers'>default_headers</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='lbrace'>{</span>
@@ -667,286 +479,9 @@
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="delete_record_uri-instance_method">
-  
-    #<strong>delete_record_uri</strong>(pds)  &#x21d2; <tt><a href="https://docs.ruby-lang.org/en/2.3.0/Object.html">Object</a></tt> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-44
-45
-46</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/at_protocol/requests.rb', line 44</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_delete_record_uri'>delete_record_uri</span><span class='lparen'>(</span><span class='id identifier rubyid_pds'>pds</span><span class='rparen'>)</span>
-  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_pds'>pds</span><span class='embexpr_end'>}</span><span class='tstring_content'>/xrpc/com.atproto.repo.deleteRecord</span><span class='tstring_end'>&quot;</span></span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="delete_session_uri-instance_method">
-  
-    #<strong>delete_session_uri</strong>(pds)  &#x21d2; <tt><a href="https://docs.ruby-lang.org/en/2.3.0/Object.html">Object</a></tt> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-32
-33
-34</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/at_protocol/requests.rb', line 32</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_delete_session_uri'>delete_session_uri</span><span class='lparen'>(</span><span class='id identifier rubyid_pds'>pds</span><span class='rparen'>)</span>
-  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_pds'>pds</span><span class='embexpr_end'>}</span><span class='tstring_content'>/xrpc/com.atproto.server.deleteSession</span><span class='tstring_end'>&quot;</span></span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
   <h3 class="signature " id="get_paginated_data-instance_method">
   
-    #<strong>get_paginated_data</strong>(session, method, key:, params:, cursor: nil, count: nil, &amp;map_block)  &#x21d2; <tt><a href="https://docs.ruby-lang.org/en/2.3.0/Array.html">Array</a></tt><sup>?</sup> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-
-  </div>
-</div>
-<div class="tags">
-  <p class="tag_title">Parameters:</p>
-<ul class="param">
-  
-    <li>
-      
-        <span class='name'>session</span>
-      
-      
-        <span class='type'>(<tt><span class='object_link'><a href="Session.html" title="ATProto::Session (class)">ATProto::Session</a></span></tt>, <tt><span class='object_link'><a href="Repo.html" title="ATProto::Repo (class)">ATProto::Repo</a></span></tt>)</span>
-      
-      
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>method</span>
-      
-      
-        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
-      
-      
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>key</span>
-      
-      
-        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
-      
-      
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>params</span>
-      
-      
-        <span class='type'>(<tt><a href="https://docs.ruby-lang.org/en/2.3.0/Hash.html">Hash</a></tt>)</span>
-      
-      
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>cursor</span>
-      
-      
-        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>nil</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>count</span>
-      
-      
-        <span class='type'>(<tt><a href="https://docs.ruby-lang.org/en/2.3.0/Integer.html">Integer</a></tt>, <tt>nil</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>map_block</span>
-      
-      
-        <span class='type'>(<tt><a href="https://docs.ruby-lang.org/en/2.3.0/Proc.html">Proc</a></tt>, <tt>nil</tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt><a href="https://docs.ruby-lang.org/en/2.3.0/Array.html">Array</a></tt>, <tt>nil</tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-92
-93
-94
-95
-96
-97
-98
-99
-100
-101
-102
-103
-104
-105
-106
-107
-108
-109
-110
-111
-112
-113
-114
-115
-116
-117
-118
-119</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/at_protocol/requests.rb', line 92</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_get_paginated_data'>get_paginated_data</span><span class='lparen'>(</span><span class='id identifier rubyid_session'>session</span><span class='comma'>,</span> <span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='label'>key:</span><span class='comma'>,</span> <span class='label'>params:</span><span class='comma'>,</span> <span class='label'>cursor:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>count:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_map_block'>map_block</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='lbrace'>{</span> <span class='label'>limit:</span> <span class='int'>100</span><span class='comma'>,</span> <span class='label'>cursor:</span> <span class='id identifier rubyid_cursor'>cursor</span> <span class='rbrace'>}</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_then'>then</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_send_data'>send_data</span><span class='op'>|</span>
-    <span class='id identifier rubyid_session'>session</span><span class='period'>.</span><span class='id identifier rubyid_xrpc'>xrpc</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span><span class='period'>.</span><span class='id identifier rubyid_public_send'>public_send</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_send_data'>send_data</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_then'>then</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_response'>response</span><span class='op'>|</span>
-      <span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_dig'>dig</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_then'>then</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_data'>data</span><span class='op'>|</span>
-        <span class='kw'>if</span> <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span> <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
-          <span class='kw'>return</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-        <span class='kw'>end</span>
-
-        <span class='id identifier rubyid_results'>results</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
-            <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_map_block'>map_block</span><span class='rparen'>)</span>
-          <span class='kw'>else</span>
-            <span class='id identifier rubyid_data'>data</span>
-          <span class='kw'>end</span>
-
-        <span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_dig'>dig</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>cursor</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_then'>then</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_next_cursor'>next_cursor</span><span class='op'>|</span>
-          <span class='kw'>if</span> <span class='id identifier rubyid_next_cursor'>next_cursor</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span> <span class='lparen'>(</span><span class='id identifier rubyid_count'>count</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_results'>results</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>&gt;=</span> <span class='id identifier rubyid_count'>count</span><span class='rparen'>)</span>
-            <span class='kw'>return</span> <span class='id identifier rubyid_results'>results</span><span class='lbracket'>[</span><span class='int'>0</span><span class='op'>..</span><span class='id identifier rubyid_count'>count</span><span class='rbracket'>]</span>
-          <span class='kw'>else</span>
-            <span class='id identifier rubyid_remaining_count'>remaining_count</span> <span class='op'>=</span> <span class='id identifier rubyid_count'>count</span> <span class='op'>?</span> <span class='id identifier rubyid_count'>count</span> <span class='op'>-</span> <span class='id identifier rubyid_results'>results</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>:</span> <span class='kw'>nil</span>
-            <span class='id identifier rubyid_get_paginated_data'>get_paginated_data</span><span class='lparen'>(</span><span class='id identifier rubyid_session'>session</span><span class='comma'>,</span> <span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='label'>key:</span> <span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='label'>params:</span> <span class='id identifier rubyid_params'>params</span><span class='comma'>,</span> <span class='label'>cursor:</span> <span class='id identifier rubyid_next_cursor'>next_cursor</span><span class='comma'>,</span> <span class='label'>count:</span> <span class='id identifier rubyid_remaining_count'>remaining_count</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_map_block'>map_block</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_then'>then</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_next_results'>next_results</span><span class='op'>|</span>
-              <span class='kw'>return</span> <span class='lparen'>(</span><span class='id identifier rubyid_results'>results</span> <span class='op'>+</span> <span class='id identifier rubyid_next_results'>next_results</span><span class='rparen'>)</span>
-            <span class='kw'>end</span>
-          <span class='kw'>end</span>
-        <span class='kw'>end</span>
-      <span class='kw'>end</span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="get_post_thread_uri-instance_method">
-  
-    #<strong>get_post_thread_uri</strong>(pds, query)  &#x21d2; <tt><a href="https://docs.ruby-lang.org/en/2.3.0/Object.html">Object</a></tt> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-56
-57
-58</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/at_protocol/requests.rb', line 56</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_get_post_thread_uri'>get_post_thread_uri</span><span class='lparen'>(</span><span class='id identifier rubyid_pds'>pds</span><span class='comma'>,</span> <span class='id identifier rubyid_query'>query</span><span class='rparen'>)</span>
-  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_pds'>pds</span><span class='embexpr_end'>}</span><span class='tstring_content'>/xrpc/app.bsky.feed.getPostThread</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_query_obj_to_query_params'>query_obj_to_query_params</span><span class='lparen'>(</span><span class='id identifier rubyid_query'>query</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="get_session_uri-instance_method">
-  
-    #<strong>get_session_uri</strong>(pds)  &#x21d2; <tt><a href="https://docs.ruby-lang.org/en/2.3.0/Object.html">Object</a></tt> 
+    #<strong>get_paginated_data</strong>(session, method, key:, params:, cursor: nil, count:, &amp;map_block)  &#x21d2; <tt><a href="https://docs.ruby-lang.org/en/2.3.0/Object.html">Object</a></tt> 
   
 
   
@@ -965,8 +500,8 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/at_protocol/requests.rb', line 40</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_get_session_uri'>get_session_uri</span><span class='lparen'>(</span><span class='id identifier rubyid_pds'>pds</span><span class='rparen'>)</span>
-  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_pds'>pds</span><span class='embexpr_end'>}</span><span class='tstring_content'>/xrpc/com.atproto.server.getSession</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>def</span> <span class='id identifier rubyid_get_paginated_data'>get_paginated_data</span><span class='lparen'>(</span><span class='id identifier rubyid_session'>session</span><span class='comma'>,</span> <span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='label'>key:</span><span class='comma'>,</span> <span class='label'>params:</span><span class='comma'>,</span> <span class='label'>cursor:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>count:</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_map_block'>map_block</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_get_paginated_data_lazy'>get_paginated_data_lazy</span><span class='lparen'>(</span><span class='id identifier rubyid_session'>session</span><span class='comma'>,</span> <span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='label'>key:</span> <span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='label'>params:</span> <span class='id identifier rubyid_params'>params</span><span class='comma'>,</span> <span class='label'>cursor:</span> <span class='id identifier rubyid_cursor'>cursor</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_map_block'>map_block</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span><span class='lparen'>(</span><span class='id identifier rubyid_count'>count</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -974,29 +509,90 @@
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="mute_actor_uri-instance_method">
+  <h3 class="signature " id="get_paginated_data_lazy-instance_method">
   
-    #<strong>mute_actor_uri</strong>(pds)  &#x21d2; <tt><a href="https://docs.ruby-lang.org/en/2.3.0/Object.html">Object</a></tt> 
-  
-
+    #<strong>get_paginated_data_lazy</strong>(session, method, key:, params:, cursor: nil, &amp;map_block)  &#x21d2; <tt><a href="https://docs.ruby-lang.org/en/2.3.0/Object.html">Object</a></tt> 
   
 
   
-</h3><table class="source_code">
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Generates a lazy enumerator for paginated data retrieval.</p>
+
+<p>Parameters:</p>
+<ul><li>
+<p>session: The session object used for making API requests.</p>
+</li><li>
+<p>method: The name of the method to be called on the session object.</p>
+</li><li>
+<p>key: The key to access the data in the response object.</p>
+</li><li>
+<p>params: Additional parameters to be passed in the API request.</p>
+</li><li>
+<p>cursor: The cursor for pagination. Defaults to nil.</p>
+</li><li>
+<p>count: The maximum number of results to retrieve. Defaults to nil.</p>
+</li><li>
+<p>&amp;map_block: An optional block to transform each result.</p>
+</li></ul>
+
+<p>Returns:</p>
+<ul><li>
+<p>A <code>Enumerator::Lazy</code> that yields paginated data.</p>
+</li></ul>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-48
-49
-50</pre>
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/at_protocol/requests.rb', line 48</span>
+      <pre class="code"><span class="info file"># File 'lib/at_protocol/requests.rb', line 57</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_mute_actor_uri'>mute_actor_uri</span><span class='lparen'>(</span><span class='id identifier rubyid_pds'>pds</span><span class='rparen'>)</span>
-  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_pds'>pds</span><span class='embexpr_end'>}</span><span class='tstring_content'>/xrpc/app.bsky.graph.muteActor</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>def</span> <span class='id identifier rubyid_get_paginated_data_lazy'>get_paginated_data_lazy</span><span class='lparen'>(</span><span class='id identifier rubyid_session'>session</span><span class='comma'>,</span> <span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='label'>key:</span><span class='comma'>,</span> <span class='label'>params:</span><span class='comma'>,</span> <span class='label'>cursor:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_map_block'>map_block</span><span class='rparen'>)</span>
+  <span class='const'>Enumerator</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_yielder'>yielder</span><span class='op'>|</span>
+    <span class='id identifier rubyid_loop'>loop</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_send_data'>send_data</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='label'>limit:</span> <span class='int'>100</span><span class='comma'>,</span> <span class='label'>cursor:</span> <span class='id identifier rubyid_cursor'>cursor</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_response'>response</span> <span class='op'>=</span> <span class='id identifier rubyid_session'>session</span><span class='period'>.</span><span class='id identifier rubyid_xrpc'>xrpc</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span><span class='period'>.</span><span class='id identifier rubyid_public_send'>public_send</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_send_data'>send_data</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_dig'>dig</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+
+      <span class='kw'>break</span> <span class='kw'>if</span> <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span> <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+
+      <span class='id identifier rubyid_results'>results</span> <span class='op'>=</span> <span class='id identifier rubyid_map_block'>map_block</span> <span class='op'>?</span> <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_map_block'>map_block</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='id identifier rubyid_data'>data</span>
+      <span class='id identifier rubyid_results'>results</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_result'>result</span><span class='op'>|</span> <span class='id identifier rubyid_yielder'>yielder</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_result'>result</span> <span class='rbrace'>}</span>
+
+      <span class='id identifier rubyid_cursor'>cursor</span> <span class='op'>=</span> <span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_dig'>dig</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>cursor</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+      <span class='kw'>break</span> <span class='kw'>if</span> <span class='id identifier rubyid_cursor'>cursor</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span><span class='period'>.</span><span class='id identifier rubyid_lazy'>lazy</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1042,36 +638,6 @@
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="refresh_session_uri-instance_method">
-  
-    #<strong>refresh_session_uri</strong>(pds)  &#x21d2; <tt><a href="https://docs.ruby-lang.org/en/2.3.0/Object.html">Object</a></tt> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-36
-37
-38</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/at_protocol/requests.rb', line 36</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_refresh_session_uri'>refresh_session_uri</span><span class='lparen'>(</span><span class='id identifier rubyid_pds'>pds</span><span class='rparen'>)</span>
-  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_pds'>pds</span><span class='embexpr_end'>}</span><span class='tstring_content'>/xrpc/com.atproto.server.refreshSession</span><span class='tstring_end'>&quot;</span></span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
   <h3 class="signature " id="refresh_token_headers-instance_method">
   
     #<strong>refresh_token_headers</strong>(session)  &#x21d2; <tt><a href="https://docs.ruby-lang.org/en/2.3.0/Object.html">Object</a></tt> 
@@ -1086,14 +652,14 @@
       <pre class="lines">
 
 
-66
-67
-68
-69
-70</pre>
+34
+35
+36
+37
+38</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/at_protocol/requests.rb', line 66</span>
+      <pre class="code"><span class="info file"># File 'lib/at_protocol/requests.rb', line 34</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_refresh_token_headers'>refresh_token_headers</span><span class='lparen'>(</span><span class='id identifier rubyid_session'>session</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_default_headers'>default_headers</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='lbrace'>{</span>
@@ -1108,7 +674,7 @@
       <div class="method_details ">
   <h3 class="signature " id="resolve_handle-instance_method">
   
-    #<strong>resolve_handle</strong>(username, pds = &quot;https://bsky.social&quot;)  &#x21d2; <tt><a href="https://docs.ruby-lang.org/en/2.3.0/Object.html">Object</a></tt> 
+    #<strong>resolve_handle</strong>(username, pds)  &#x21d2; <tt><a href="https://docs.ruby-lang.org/en/2.3.0/Object.html">Object</a></tt> 
   
 
   
@@ -1127,38 +693,8 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/at_protocol/requests.rb', line 12</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_resolve_handle'>resolve_handle</span><span class='lparen'>(</span><span class='id identifier rubyid_username'>username</span><span class='comma'>,</span> <span class='id identifier rubyid_pds'>pds</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>https://bsky.social</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_resolve_handle'>resolve_handle</span><span class='lparen'>(</span><span class='id identifier rubyid_username'>username</span><span class='comma'>,</span> <span class='id identifier rubyid_pds'>pds</span><span class='rparen'>)</span>
   <span class='lparen'>(</span><span class='const'>XRPC</span><span class='op'>::</span><span class='const'>Client</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_pds'>pds</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span><span class='period'>.</span><span class='id identifier rubyid_com_atproto_identity_resolveHandle'>com_atproto_identity_resolveHandle</span><span class='lparen'>(</span><span class='label'>handle:</span> <span class='id identifier rubyid_username'>username</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>did</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="upload_blob_uri-instance_method">
-  
-    #<strong>upload_blob_uri</strong>(pds)  &#x21d2; <tt><a href="https://docs.ruby-lang.org/en/2.3.0/Object.html">Object</a></tt> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-52
-53
-54</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/at_protocol/requests.rb', line 52</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_upload_blob_uri'>upload_blob_uri</span><span class='lparen'>(</span><span class='id identifier rubyid_pds'>pds</span><span class='rparen'>)</span>
-  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_pds'>pds</span><span class='embexpr_end'>}</span><span class='tstring_content'>/xrpc/com.atproto.repo.uploadBlob</span><span class='tstring_end'>&quot;</span></span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1170,7 +706,7 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Oct 13 16:54:23 2023 by
+  Generated on Wed Oct 18 20:25:21 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.2.2).
 </div>

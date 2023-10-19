@@ -7,16 +7,12 @@ module ATProto
 
     sig { params(url: String, atp_host: String).returns(T.nilable(AtUri)) }
 
-    def at_uri(url, atp_host)
-      AtUriParser.parse(url, AtUriParser::RuleSets, pds: atp_host)
-    end
+    def at_uri(url, atp_host) = AtUriParser.parse(url, AtUriParser::RuleSets, pds: atp_host)
 
     module_function :at_uri
   end
 
-  def self.AtUri(str)
-    RequestUtils.at_uri(str)
-  end
+  def self.AtUri(str) = RequestUtils.at_uri(str)
 end
 
 module ATProto
@@ -96,8 +92,6 @@ module ATProto
 
     sig { returns(String) }
 
-    def to_s
-      "at://#{@repo}/#{@collection.nil? ? "" : "#{@collection}/"}#{@rkey}"
-    end
+    def to_s = "at://#{@repo}/#{@collection.nil? ? "" : "#{@collection}/"}#{@rkey}"
   end
 end

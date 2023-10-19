@@ -25,38 +25,6 @@ module ATProto
       { "Content-Type" => "application/json" }
     end
 
-    def create_session_uri(pds)
-      "#{pds}/xrpc/com.atproto.server.createSession"
-    end
-
-    def delete_session_uri(pds)
-      "#{pds}/xrpc/com.atproto.server.deleteSession"
-    end
-
-    def refresh_session_uri(pds)
-      "#{pds}/xrpc/com.atproto.server.refreshSession"
-    end
-
-    def get_session_uri(pds)
-      "#{pds}/xrpc/com.atproto.server.getSession"
-    end
-
-    def delete_record_uri(pds)
-      "#{pds}/xrpc/com.atproto.repo.deleteRecord"
-    end
-
-    def mute_actor_uri(pds)
-      "#{pds}/xrpc/app.bsky.graph.muteActor"
-    end
-
-    def upload_blob_uri(pds)
-      "#{pds}/xrpc/com.atproto.repo.uploadBlob"
-    end
-
-    def get_post_thread_uri(pds, query)
-      "#{pds}/xrpc/app.bsky.feed.getPostThread#{query_obj_to_query_params(query)}"
-    end
-
     def default_authenticated_headers(session)
       default_headers.merge({
         Authorization: "Bearer #{session.access_token}",
@@ -69,53 +37,39 @@ module ATProto
       })
     end
 
-    sig {
-      params(
-        session: T.any(ATProto::Session, ATProto::Repo),
-        method: String,
-        key: String,
-        params: Hash,
-        cursor: T.nilable(
-          String
-        ),
-        count: T.nilable(
-          Integer
-        ),
-        map_block: T.nilable(Proc),
-      )
-        .returns(T
-          .nilable(
-            Array
-          ))
-    }
+    def get_paginated_data(session, method, key:, params:, cursor: nil, count:, &map_block)
+      get_paginated_data_lazy(session, method, key: key, params: params, cursor: cursor, &map_block).first(count)
+    end
 
-    def get_paginated_data(session, method, key:, params:, cursor: nil, count: nil, &map_block)
-      params.merge({ limit: 100, cursor: cursor }).then do |send_data|
-        session.xrpc.get.public_send(method, **send_data).then do |response|
-          response.dig(key).then do |data|
-            if data.nil? || data.empty?
-              return []
-            end
+    # Generates a lazy enumerator for paginated data retrieval.
+    #
+    # Parameters:
+    # - session: The session object used for making API requests.
+    # - method: The name of the method to be called on the session object.
+    # - key: The key to access the data in the response object.
+    # - params: Additional parameters to be passed in the API request.
+    # - cursor: The cursor for pagination. Defaults to nil.
+    # - count: The maximum number of results to retrieve. Defaults to nil.
+    # - &map_block: An optional block to transform each result.
+    #
+    # Returns:
+    # - A +Enumerator::Lazy+ that yields paginated data.
+    def get_paginated_data_lazy(session, method, key:, params:, cursor: nil, &map_block)
+      Enumerator.new do |yielder|
+        loop do
+          send_data = params.merge(limit: 100, cursor: cursor)
+          response = session.xrpc.get.public_send(method, **send_data)
+          data = response.dig(key)
 
-            results = if block_given?
-                data.map(&map_block)
-              else
-                data
-              end
+          break if data.nil? || data.empty?
 
-            response.dig("cursor").then do |next_cursor|
-              if next_cursor.nil? || (count && results.length >= count)
-                return results[0..count]
-              else
-                remaining_count = count ? count - results.length : nil
-                get_paginated_data(session, method, key: key, params: params, cursor: next_cursor, count: remaining_count, &map_block).then do |next_results|
-                  return (results + next_results)
-                end
-              end
-            end
-          end
+          results = map_block ? data.map(&map_block) : data
+          results.each { |result| yielder << result }
+
+          cursor = response.dig("cursor")
+          break if cursor.nil?
         end
-      end
+      end.lazy
     end
   end
 end
