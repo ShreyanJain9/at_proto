@@ -27,17 +27,12 @@ module ATProto
 
       alias_method :to_s, :collection
 
-      sig { params(rkey: String).returns(T.nilable(ATProto::Record)) }
+      sig { params(rkey: String).returns(ATProto::Record) }
 
       def [](rkey)
         ATProto::Record.from_uri(
-          T.must(
-            at_uri(
-              "at://#{self.repo.did}/#{@collection}/#{rkey}"
-            )
-          ),
-          self.repo.pds
-        )
+              ATProto::AtUri("at://#{self.repo.did}/#{@collection}/#{rkey}"), 
+              self.repo.pds)
       end
 
       def each(&block)

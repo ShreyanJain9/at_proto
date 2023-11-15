@@ -26,14 +26,15 @@ module ATProto
         )
       end
 
-      sig { params(uri: ATProto::AtUri, pds: String).returns(T.nilable(ATProto::Record)) }
+      sig { params(uri: ATProto::AtUri, pds: String).returns(ATProto::Record) }
 
       def from_uri(uri, pds)
-        from_hash(XRPC::Client.new(pds).get.com.atproto.repo.getRecord[
+        rec = XRPC::Client.new(pds).get.com.atproto.repo.getRecord[
           repo: uri.repo.to_s,
           collection: "#{uri.collection}",
-          rkey: uri.rkey,
-        ])
+          rkey: uri.rkey]
+        raise ATProto::Error::RecordNotFound if rec[:value].nil?
+        rec
       end
 
       sig { params(content_hash: Hash, session: ATProto::Session, rkey: T.nilable(String)).returns(T.nilable(ATProto::Record)) }

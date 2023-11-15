@@ -37,7 +37,6 @@ module ATProto
         at_uri = ruleset.transform.call(match_data, pds)
         return at_uri if at_uri.is_a?(AtUri)
       end
-
       nil
     end
 
@@ -70,7 +69,6 @@ module ATProto
         handle.start_with?("did:") ? did = handle : did = resolve_handle(handle, pds)
         AtUri.new(repo: did)
       end,
-
     ]
   end
 
@@ -79,6 +77,8 @@ module ATProto
     const :repo, T.any(ATProto::Repo, String)
     const :collection, T.nilable(T.any(ATProto::Repo::Collection, String))
     const :rkey, T.nilable(String)
+    const :query, T.nilable(Hash)
+    const :fragment, T.nilable(String)
 
     def resolve(pds:)
       if @collection.nil?
