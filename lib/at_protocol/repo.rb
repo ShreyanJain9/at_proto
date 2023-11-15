@@ -6,24 +6,14 @@ class ATProto::Repo
   attr_reader :did, :record_list, :pds, :xrpc
   alias_method :to_s, :did
 
-  sig { params(username: String, pds: String, open: T::Boolean, authenticate: T.nilable(ATProto::Session)).void }
-
   # @param username [String] The username or DID (Decentralized Identifier) to use.
-  # @param pds [String] The URL of the personal data server (default: "https://bsky.social").
-  # @param open [Boolean] Whether to open the repository or not (default: true).
-  # @param authenticate [NilClass, Object] Additional authentication data (default: nil).
-  def initialize(username, pds, open: true, authenticate: nil)
+  # @param pds [String] The URL of the personal data server.
+  # @param open [Boolean] Whether to hydrate the repository data or not (default: false).
+  def initialize(username, pds, open: false)
     @pds = T.let pds, String
-    @xrpc = T.let(XRPC::Client.new(pds), XRPC::Client)
-    if username.start_with?("did:")
-      @did = T.let(username, String)
-    else
-      @did = T.let(resolve_handle(username, pds), String)
-    end
-    @record_list = []
-    if open == true
-      open!
-    end
+    @xrpc = T.let XRPC::Client.new(pds), XRPC::Client
+    @did = T.let resolve_handle(username, pds), String
+    open! if open
   end
 
   def open!; @collections = describe["collections"]; end
@@ -32,9 +22,8 @@ class ATProto::Repo
 
   def to_uri = "at://#{did}/"
 
-  sig { returns(Hash) }
-
-  def describe = @xrpc.get.com_atproto_repo_describeRepo(repo: @did)
+  # @return [Hash] JSON data which describes the Repo, including its collections, handle, DID doc, etc.
+  def describe = @description ||= @xrpc.get.com_atproto_repo_describeRepo(repo: @did)
 
   sig { returns(Hash) }
 

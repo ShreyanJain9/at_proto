@@ -1,10 +1,10 @@
 # typed: false
 module ATProto
   class Record < T::Struct
-    const(:uri, ATProto::AtUri)
-    const(:cid, Skyfall::CID)
-    const(:timestamp, T.untyped)
-    prop(:content, Hash)
+    const :uri, ATProto::AtUri
+    const :cid, Skyfall::CID
+    const :timestamp, T.nilable(Time)
+    prop :content, Hash
     extend T::Sig
     class << self
       extend T::Sig
@@ -13,15 +13,15 @@ module ATProto
       sig { params(json_hash: Hash).returns(T.nilable(ATProto::Record)) }
 
       def from_hash(json_hash)
-        return nil if json_hash["value"].nil?
+        return nil if json_hash[:value].nil?
         timestamp = nil
-        timestamp = Time.parse json_hash["value"]["createdAt"] if json_hash["value"] && json_hash["value"]["createdAt"]
-        raw_content = json_hash["value"]
+        timestamp = Time.parse json_hash[:value]["createdAt"] if json_hash[:value] && json_hash[:value]["createdAt"]
+        raw_content = json_hash[:value]
         new(
           uri: at_uri(
-            T.must(json_hash["uri"])
+            T.must(json_hash[:uri])
           ),
-          cid: CID.from_json(json_hash["cid"]),
+          cid: CID.from_json(json_hash[:cid]),
           timestamp: timestamp, content: raw_content,
         )
       end
@@ -29,11 +29,11 @@ module ATProto
       sig { params(uri: ATProto::AtUri, pds: String).returns(T.nilable(ATProto::Record)) }
 
       def from_uri(uri, pds)
-        from_hash(XRPC::Client.new(pds).get.com_atproto_repo_getRecord(
+        from_hash(XRPC::Client.new(pds).get.com.atproto.repo.getRecord[
           repo: uri.repo.to_s,
           collection: "#{uri.collection}",
           rkey: uri.rkey,
-        ))
+        ])
       end
 
       sig { params(content_hash: Hash, session: ATProto::Session, rkey: T.nilable(String)).returns(T.nilable(ATProto::Record)) }
@@ -56,7 +56,7 @@ module ATProto
 
     sig { params(session: ATProto::Session).returns(T.nilable(ATProto::Record)) }
 
-    def put(session) = session.then(&to_write(:update)).uri.resolve(pds: session.pds)
+    def put(session) = (session.then &(to_write :update)).uri.resolve pds: session.pds
 
     sig { params(session: ATProto::Session).returns(T.nilable(Integer)) }
 

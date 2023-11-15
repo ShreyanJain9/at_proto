@@ -1,98 +1,84 @@
 # typed: true
+
+require "resolv"
+
 module ATProto
   class Error < StandardError; end
 
   class HTTPError < Error; end
 
+  class HandleNotFoundError < Error; end
+
+  class RecordNotFoundError < Error; end
+
+  class RepoNotFoundError < Error; end
+
   class UnauthorizedError < HTTPError; end
+
+  # This error is raised if the user tried to resolve a handle to a DID that is a DID:PLC without specifying a
+  # PLC directory.
+  # It can be caught and converted to a proc that will resolve the handle to the PDS, when the user specifies
+  # a PLC directory.
+  class DidPlcDirectoryRequired < Error
+    def initialize(message, did)
+      super(message)
+      @did = did
+    end
+
+    def to_proc
+      ->plc_dir {
+        RequestUtils.find_pds(@did, plc_dir)
+      }
+    end
+  end
 
   module RequestUtils # Goal is to replace with pure XRPC eventually
     extend T::Sig
 
-    def resolve_handle(username, pds)
-      (XRPC::Client.new(pds).get.com_atproto_identity_resolveHandle(handle: username))["did"]
+    module_function def resolve_handle(username, pds)
+      return username if username.start_with?("did:")
+      (XRPC::Client.new(pds).get.com.atproto.identity.resolveHandle[handle: username])["did"]
     end
 
-    def query_obj_to_query_params(q)
-      out = "?"
-      q.to_h.each do |key, value|
-        out += "#{key}=#{value}&" unless value.nil? || (value.class.method_defined?(:empty?) && value.empty?)
+    # @param username [String] A domain name that you intend to resolve to a DID, following ATProto conventions.
+    # @return [String] A DID
+    # @raise [HandleNotFoundError] if the handle could not be resolved
+    module_function def manual_resolve_handle(username)
+      return username if username.start_with?("did:")
+      begin
+        resolver = Resolv::DNS.new
+        txtrecord = resolver.getresource("_atproto.#{username}", Resolv::DNS::Resource::IN::TXT).strings[0]
+        return txtrecord[4..] if txtrecord.start_with?("did=")
+      rescue Resolv::ResolvError
+      rescue NoMethodError
       end
-      out.slice(0...-1)
+
+      did = HTTParty.get("https://#{username}/.well-known/atproto-did").body
+      return did if did.start_with?("did:")
+
+      raise HandleNotFoundError, "Could not resolve handle"
     end
 
-    def default_headers
-      { "Content-Type" => "application/json" }
-    end
-
-    def default_authenticated_headers(session)
-      default_headers.merge({
-        Authorization: "Bearer #{session.access_token}",
-      })
-    end
-
-    def refresh_token_headers(session)
-      default_headers.merge({
-        Authorization: "Bearer #{session.refresh_token}",
-      })
-    end
-
-    def get_paginated_data(session, method, key:, params:, cursor: nil, count:, &map_block)
-      get_paginated_data_lazy(session, method, key: key, params: params, cursor: cursor, &map_block).first(count)
-    end
-
-    # Generates a lazy enumerator for paginated data retrieval.
-    #
-    # Parameters:
-    # - session: The session object used for making API requests.
-    # - method: The name of the method to be called on the session object.
-    # - key: The key to access the data in the response object.
-    # - params: Additional parameters to be passed in the API request.
-    # - cursor: The cursor for pagination. Defaults to nil.
-    # - count: The maximum number of results to retrieve. Defaults to nil.
-    # - &map_block: An optional block to transform each result.
-    #
-    # Returns:
-    # - A +Enumerator::Lazy+ that yields paginated data.
-    def get_paginated_data_lazy(session, method, key:, params:, cursor: nil, &map_block)
-      Enumerator.new do |yielder|
-        loop do
-          send_data = params.merge(limit: 100, cursor: cursor)
-          response = session.xrpc.get.public_send(method, **send_data)
-          data = response.dig(key)
-
-          break if data.nil? || data.empty?
-
-          results = map_block ? data.map(&map_block) : data
-          results.each { |result| yielder << result }
-
-          cursor = response.dig("cursor")
-          break if cursor.nil?
+    # @param username [String] A domain name linked to an ATProto Repo whose PDS you want to find.
+    # @return [String] The PDS URL
+    # @raise [RepoNotFoundError] if the PDS could not be found
+    # @raise [DidPlcDirectoryRequired] if you did not specify a PLC directory -> rescue this!
+    # @raise [HandleNotFoundError] if the handle could not be resolved
+    module_function def find_pds(username, plc_dir = nil)
+      did = manual_resolve_handle(username)
+      didDoc = case did[4..6]
+        when "web"
+          JSON.parse(HTTParty.get("https://#{did[7..]}/.well_known/did.json"))
+        when "plc"
+          if plc_dir.nil?
+            raise DidPlcDirectoryRequired.new("Did not specify PLC directory for #{did}", did)
+          end
+          JSON.parse(HTTParty.get("https://#{plc_dir}/#{did}"))
         end
-      end.lazy
-    end
-  end
-end
-
-module ATProto
-  module RequestUtils
-    class XRPCResponseCode < T::Enum
-      enums do
-        Unknown = new(1)
-        InvalidResponse = new(2)
-        Success = new(200)
-        InvalidRequest = new(400)
-        AuthRequired = new(401)
-        Forbidden = new(403)
-        XRPCNotSupported = new(404)
-        PayloadTooLarge = new(413)
-        RateLimitExceeded = new(429)
-        InternalServerError = new(500)
-        MethodNotImplemented = new(501)
-        UpstreamFailure = new(502)
-        NotEnoughResouces = new(503)
-        UpstreamTimeout = new(504)
+      unless didDoc["service"].nil?
+        return didDoc["service"][0]["serviceEndpoint"]
       end
+      raise ATProto::RepoNotFoundError, "Could not find PDS for #{did}"
     end
   end
 end

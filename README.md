@@ -16,11 +16,11 @@ DON'T
 <!--
 Install the gem and add to the application's Gemfile by executing:
 
-    $ bundle add ATProto
+    $ bundle add at_protocol
 
 If bundler is not being used to manage dependencies, install the gem by executing:
 
-    $ gem install ATProto -->
+    $ gem install at_protocol -->
 
 You will probably want to install it as a part of [Bskyrb](https://github.com/ShreyanJain9/bskyrb instead
 

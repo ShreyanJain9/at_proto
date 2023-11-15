@@ -9,24 +9,24 @@ module ATProto
       const(:repo, ATProto::Repo)
       const(:collection, String)
 
-      sig { params(count: T.nilable(Integer)).returns(T::Array[ATProto::Record]) }
-
       def list(count = nil)
-        (get_paginated_data_lazy(
+        (get_paginated_data(
           self.repo,
-          :com_atproto_repo_listRecords.to_s,
+          "com.atproto.repo.listRecords",
           key: "records",
           params: { repo: self.repo.to_s, collection: collection },
         ) do |record|
           ATProto::Record.from_hash(record)
-        end).first(count)
+        end)
+          .first(count) if count
       end
 
       sig { returns(String) }
 
       def to_uri = "at://#{self.repo.did}/#{self.collection}/"
 
-      alias_method :to_s, :to_uri
+      alias_method :to_s, :collection
+
       sig { params(rkey: String).returns(T.nilable(ATProto::Record)) }
 
       def [](rkey)
