@@ -20,7 +20,7 @@ module ATProto
   # It can be caught and converted to a proc that will resolve the handle to the PDS, when the user specifies
   # a PLC directory.
   class Error::DidPlcDirectoryRequired < Error
-    def initialize(did)
+    def initialize(did, method)
       message = "Did not specify PLC directory for #{did}"
       super(message)
       @did = did
@@ -28,7 +28,7 @@ module ATProto
 
     def to_proc
       ->plc_dir {
-        RequestUtils.find_pds(@did, plc_dir)
+        RequestUtils.send(method, @did, plc_dir)
       }
     end
   end
@@ -66,7 +66,7 @@ module ATProto
     # @raise [Error::DidPlcDirectoryRequired] if you did not specify a PLC directory -> rescue this!
     # @raise [Error::HandleNotFound] if the handle could not be resolved
     def find_pds(username, plc_dir = nil)
-      didDoc = get_did_doc(username, plc_dir)
+      didDoc = get_did_doc(username, plc_dir, return_hook: :find_pds)
       unless didDoc["service"].nil?
         return didDoc["service"][0]["serviceEndpoint"]
       else 
@@ -75,18 +75,20 @@ module ATProto
     end
 
     # @param username [String] A domain name or DID whose DID Document you want. 
+    # @param plc_dir [String] The PLC directory to fetch did:plc documents from. Optional if using did:web. 
+    # @param return_hook [Symbol] DO NOT USE, PRIVATE API
     # @return [Hash] The DID doc.
     # @raise [Error::RepoNotFound] if the PDS could not be found
     # @raise [Error::DidPlcDirectoryRequired] if you did not specify a PLC directory -> rescue this!
     # @raise [Error::HandleNotFound] if the handle could not be resolved
-    def get_did_doc(username, plc_dir = nil)
+    def get_did_doc(username, plc_dir = nil, return_hook: nil)
       did = manual_resolve_handle(username)
       case did[4..6]
         when "web"
           return JSON.parse(HTTParty.get("https://#{did[7..]}/.well_known/did.json"))
         when "plc"
           if plc_dir.nil?
-            raise Error::DidPlcDirectoryRequired, did
+            raise Error::DidPlcDirectoryRequired.new(did, (return_hook || :get_did_doc))
           end
           return JSON.parse(HTTParty.get("https://#{plc_dir}/#{did}"))
         end      
