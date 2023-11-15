@@ -23,7 +23,7 @@ class ATProto::Repo
   def to_uri = "at://#{did}/"
 
   # @return [Hash] JSON data which describes the Repo, including its collections, handle, DID doc, etc.
-  def describe = @description ||= @xrpc.get.com_atproto_repo_describeRepo(repo: @did)
+  def describe = @description ||= @xrpc.get.com.atproto.repo.describeRepo[repo: @did]
 
   sig { returns(Hash) }
 
