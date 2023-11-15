@@ -5,7 +5,7 @@ module ATProto
       include RequestUtils
       extend T::Sig
       const :uri, ATProto::AtUri
-      prop :cid, Skyfall::CID
+      const :cid, Skyfall::CID
 
       def to_json = {
           "uri" => uri.to_s,
