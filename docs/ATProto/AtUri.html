@@ -145,6 +145,64 @@
       <li class="public ">
   <span class="summary_signature">
     
+      <a href="#fragment-instance_method" title="#fragment (instance method)">#<strong>fragment</strong>  &#x21d2; String<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of prop ‘fragment`.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#query-instance_method" title="#query (instance method)">#<strong>query</strong>  &#x21d2; Hash<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of prop ‘query`.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#repo-instance_method" title="#repo (instance method)">#<strong>repo</strong>  &#x21d2; ATProto::Repo, String </a>
     
 
@@ -216,7 +274,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(repo:, collection: nil, rkey: nil)  &#x21d2; void </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(repo:, collection: nil, rkey: nil, query: nil, fragment: nil)  &#x21d2; void </a>
     
 
     
@@ -292,7 +350,7 @@
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    #<strong>initialize</strong>(repo:, collection: nil, rkey: nil)  &#x21d2; <tt>void</tt> 
+    #<strong>initialize</strong>(repo:, collection: nil, rkey: nil, query: nil, fragment: nil)  &#x21d2; <tt>void</tt> 
   
 
   
@@ -345,6 +403,32 @@
       
     </li>
   
+    <li>
+      
+        <span class='name'>query</span>
+      
+      
+        <span class='type'>(<tt><a href="https://docs.ruby-lang.org/en/2.3.0/Hash.html">Hash</a></tt>, <tt>nil</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>fragment</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+    </li>
+  
 </ul>
 
 
@@ -361,7 +445,9 @@
 
 <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:repo</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_any'>any</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../ATProto.html" title="ATProto (module)">ATProto</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Repo.html" title="ATProto::Repo (class)">Repo</a></span></span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></span><span class='rparen'>)</span>
 <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:collection</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_any'>any</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../ATProto.html" title="ATProto (module)">ATProto</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Repo.html" title="ATProto::Repo (class)">Repo</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Repo/Collection.html" title="ATProto::Repo::Collection (class)">Collection</a></span></span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></span><span class='rparen'>)</span><span class='rparen'>)</span>
-<span class='id identifier rubyid_const'>const</span> <span class='symbol'>:rkey</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></span><span class='rparen'>)</span></pre>
+<span class='id identifier rubyid_const'>const</span> <span class='symbol'>:rkey</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_const'>const</span> <span class='symbol'>:query</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_const'>const</span> <span class='symbol'>:fragment</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></span><span class='rparen'>)</span></pre>
     </td>
   </tr>
 </table>
@@ -419,6 +505,110 @@
       <pre class="code"><span class="info file"># File ''</span>
 
 <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:collection</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_any'>any</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../ATProto.html" title="ATProto (module)">ATProto</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Repo.html" title="ATProto::Repo (class)">Repo</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Repo/Collection.html" title="ATProto::Repo::Collection (class)">Collection</a></span></span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></span><span class='rparen'>)</span><span class='rparen'>)</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="fragment-instance_method">
+  
+    #<strong>fragment</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt><sup>?</sup>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of prop ‘fragment`.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File ''</span>
+
+<span class='id identifier rubyid_const'>const</span> <span class='symbol'>:fragment</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></span><span class='rparen'>)</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="query-instance_method">
+  
+    #<strong>query</strong>  &#x21d2; <tt><a href="https://docs.ruby-lang.org/en/2.3.0/Hash.html">Hash</a></tt><sup>?</sup>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of prop ‘query`.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><a href="https://docs.ruby-lang.org/en/2.3.0/Hash.html">Hash</a></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File ''</span>
+
+<span class='id identifier rubyid_const'>const</span> <span class='symbol'>:query</span><span class='comma'>,</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_nilable'>nilable</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='rparen'>)</span></pre>
     </td>
   </tr>
 </table>
@@ -630,7 +820,7 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Nov 14 18:18:42 2023 by
+  Generated on Wed Nov 15 15:55:49 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.2.2).
 </div>

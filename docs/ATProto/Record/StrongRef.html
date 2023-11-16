@@ -130,6 +130,8 @@
   
   
     
+      <span class="note title readonly">readonly</span>
+    
     
   
   
@@ -269,7 +271,7 @@
   
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="../RequestUtils.html" title="ATProto::RequestUtils (module)">ATProto::RequestUtils</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="../RequestUtils.html#at_uri-class_method" title="ATProto::RequestUtils.at_uri (method)">at_uri</a></span>, <span class='object_link'><a href="../RequestUtils.html#find_pds-class_method" title="ATProto::RequestUtils.find_pds (method)">find_pds</a></span>, <span class='object_link'><a href="../RequestUtils.html#manual_resolve_handle-class_method" title="ATProto::RequestUtils.manual_resolve_handle (method)">manual_resolve_handle</a></span>, <span class='object_link'><a href="../RequestUtils.html#resolve_handle-class_method" title="ATProto::RequestUtils.resolve_handle (method)">resolve_handle</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="../RequestUtils.html#at_uri-class_method" title="ATProto::RequestUtils.at_uri (method)">at_uri</a></span>, <span class='object_link'><a href="../RequestUtils.html#find_pds-class_method" title="ATProto::RequestUtils.find_pds (method)">find_pds</a></span>, <span class='object_link'><a href="../RequestUtils.html#get_did_doc-class_method" title="ATProto::RequestUtils.get_did_doc (method)">get_did_doc</a></span>, <span class='object_link'><a href="../RequestUtils.html#manual_resolve_handle-class_method" title="ATProto::RequestUtils.manual_resolve_handle (method)">manual_resolve_handle</a></span>, <span class='object_link'><a href="../RequestUtils.html#resolve_handle-class_method" title="ATProto::RequestUtils.resolve_handle (method)">resolve_handle</a></span></p>
 
   
   
@@ -332,7 +334,7 @@
       <pre class="code"><span class="info file"># File ''</span>
 
 <span class='id identifier rubyid_const'>const</span> <span class='symbol'>:uri</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../../ATProto.html" title="ATProto (module)">ATProto</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../AtUri.html" title="ATProto::AtUri (class)">AtUri</a></span></span>
-<span class='id identifier rubyid_prop'>prop</span> <span class='symbol'>:cid</span><span class='comma'>,</span> <span class='const'>Skyfall</span><span class='op'>::</span><span class='const'>CID</span></pre>
+<span class='id identifier rubyid_const'>const</span> <span class='symbol'>:cid</span><span class='comma'>,</span> <span class='const'>Skyfall</span><span class='op'>::</span><span class='const'>CID</span></pre>
     </td>
   </tr>
 </table>
@@ -344,11 +346,11 @@
     <h2>Instance Attribute Details</h2>
     
       
-      <span id="cid-instance_method"></span>
+      <span id=""></span>
       <div class="method_details first">
   <h3 class="signature first" id="cid-instance_method">
   
-    #<strong>cid</strong>  &#x21d2; <tt>Skyfall::CID</tt> 
+    #<strong>cid</strong>  &#x21d2; <tt>Skyfall::CID</tt>  <span class="extras">(readonly)</span>
   
 
   
@@ -389,7 +391,7 @@
     <td>
       <pre class="code"><span class="info file"># File ''</span>
 
-<span class='id identifier rubyid_prop'>prop</span> <span class='symbol'>:cid</span><span class='comma'>,</span> <span class='const'>Skyfall</span><span class='op'>::</span><span class='const'>CID</span></pre>
+<span class='id identifier rubyid_const'>const</span> <span class='symbol'>:cid</span><span class='comma'>,</span> <span class='const'>Skyfall</span><span class='op'>::</span><span class='const'>CID</span></pre>
     </td>
   </tr>
 </table>
@@ -469,16 +471,12 @@
       <pre class="lines">
 
 
-17
-18
-19</pre>
+15</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/at_protocol/record/strongref.rb', line 17</span>
+      <pre class="code"><span class="info file"># File 'lib/at_protocol/record/strongref.rb', line 15</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_inspect'>inspect</span>
-  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_to_json'>to_json</span><span class='period'>.</span><span class='id identifier rubyid_to_json'>to_json</span>
-<span class='kw'>end</span></pre>
+<span class='kw'>def</span> <span class='id identifier rubyid_inspect'>inspect</span> <span class='op'>=</span> <span class='const'>JSON</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_to_json'>to_json</span><span class='rparen'>)</span></pre>
     </td>
   </tr>
 </table>
@@ -502,19 +500,15 @@
 10
 11
 12
-13
-14
-15</pre>
+13</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/at_protocol/record/strongref.rb', line 10</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_to_json'>to_json</span>
-  <span class='lbrace'>{</span>
-    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>uri</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='comma'>,</span>
-    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>cid</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_cid'>cid</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='comma'>,</span>
-  <span class='rbrace'>}</span>
-<span class='kw'>end</span></pre>
+<span class='kw'>def</span> <span class='id identifier rubyid_to_json'>to_json</span> <span class='op'>=</span> <span class='lbrace'>{</span>
+  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>uri</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>cid</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_cid'>cid</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='comma'>,</span>
+<span class='rbrace'>}</span></pre>
     </td>
   </tr>
 </table>
@@ -525,7 +519,7 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Nov 14 18:18:44 2023 by
+  Generated on Wed Nov 15 15:55:51 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.2.2).
 </div>
